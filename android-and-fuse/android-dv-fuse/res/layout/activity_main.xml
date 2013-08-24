@@ -1,5 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/GridView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,48 +9,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="231dp"
+        android:layout_height="58dp"
+        android:layout_x="131dp"
+        android:layout_y="9dp"
+        android:gravity="center|left" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinner1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:text="Airport"
+        android:layout_x="-1dp"
+        android:layout_y="31dp"
+        android:text="@string/airports"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/spinner1"
-        android:layout_below="@+id/spinner1"
-        android:layout_marginTop="18dp"
-        android:text="Retrieve Airport Flights" />
+        android:layout_x="13dp"
+        android:layout_y="97dp"
+        android:text="@string/retrieve_airport_flights" />
 
     <ProgressBar
-        android:id="@+id/progressBar1"
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button1"
-        android:layout_marginLeft="35dp"
-        android:layout_toRightOf="@+id/button1" />
+        android:layout_x="259dp"
+        android:layout_y="82dp"
+        android:visibility="visible" />
 
-    <ExpandableListView
-        android:id="@+id/expandableListView1"
+    <ListView
+        android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="24dp" >
-    </ExpandableListView>
+        android:layout_height="349dp"
+        android:layout_x="1dp"
+        android:layout_y="180dp" >
+    </ListView>
 
-</RelativeLayout>
+</AbsoluteLayout>
