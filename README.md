@@ -29,5 +29,4 @@ Based on the flight selected in Step 1, a detail screen appears displaying infor
 A link called "View Airport Maps" pulls in map images for the airport.
 A link called "View Google Map" shows a satellite image of the airport which will show details of the airport (restaurants, stores, etc)
 
-A second tab on this page, "Next Flights Available", will display a list of all upcomining flights for the selected departure and target airports. The user will be able to select one of these flights and book a seat. The update will access the SAP NW Gateway service via the data virtualization error. 
- 
+A second tab on this page, "Next Flights Available", will display a list of all upcomining flights for the selected departure and target airports. The user will be able to select one of these flights and book a seat. The update will access the SAP NW Gateway service via the data virtualization layer.
