@@ -17,17 +17,17 @@ Step 2-
 Android and Data Virtualization
 This step demonstrates a Data Virtualization virtual database (VDB) containing the following sources:
 	The OData Flight service from SAP NetWeaver Gateway
-	A MySQL Instance with Airport co-ordinates
-	An FAA REST Service containing current airport delay and weather conditions
+	A MySQL Instance with Airport map image file names
+	Web service data sources from flightstats.com containing flight and airport specific information
 
-Based on the flight selected in Step 1, a detail screen appears displaying:
-	City to/from
-	Country to/from
-	Airport to/from
-	Departuture Time
-	Arrival Time
-	Carrier ID
-	Seats Avalailable (Seat max - Seat occupied)
+Based on the flight selected in Step 1, a detail screen appears displaying information about the flight:
+	(AA) American Airlines - 017
+	08:00 AM LAS - 12:00 PM ORD
+	GAte C4 Terminal 1
+	Seats Available (Seat max - Seat occupied)
 
-A link called "Flight Pattern" allows a Google Map view of the flight pattern for the selected flight
-plus a marker for each airport using data from all three sources.
+A link called "View Airport Maps" pulls in map images for the airport.
+A link called "View Google Map" shows a satellite image of the airport which will show details of the airport (restaurants, stores, etc)
+
+A second tab on this page, "Next Flights Available", will display a list of all upcomining flights for the selected departure and target airports. The user will be able to select one of these flights and book a seat. The update will access the SAP NW Gateway service via the data virtualization error. 
+ 
