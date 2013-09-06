@@ -4,7 +4,8 @@
     <string name="app_name">Data Virtualization and Fuse Demonstration</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="airports">Airports (IATA)</string>
+    <string name="airports">Departure (IATA)</string>
+    <string name="arrairports">Arrival (IATA)</string>
     <string name="retrieve_airport_flights">Retrieve Airport Flights</string>
     
     <string-array name="country_array">
