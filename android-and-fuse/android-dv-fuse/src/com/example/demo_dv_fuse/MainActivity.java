@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,11 +66,13 @@ public class MainActivity extends Activity {
 		
 			@Override
 			public void onClick(View v) {
-
-						Toast.makeText(MainActivity.this,
-						"Result : " +
-								"\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()),
-								Toast.LENGTH_SHORT).show();
+			    Intent myIntent = new Intent(MainActivity.this, DetailsScreen.class);
+//			    myIntent.putExtra("key", value); //Optional parameters
+			    MainActivity.this.startActivity(myIntent);
+//						Toast.makeText(MainActivity.this,
+//						"Result : " +
+//								"\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()),
+//								Toast.LENGTH_SHORT).show();
 				}
 			});
 		}

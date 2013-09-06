@@ -12,5 +12,16 @@
 	        <item>Atlanta (ATL)</item>
 	        <item>Charleston (CHS)</item>
 	</string-array>
-
+    <string name="detail1">{detail1}</string>
+    <string name="detail2">{detail2}</string>
+    <string name="detail3">{detail3}</string>
+    <string name="nextFlights">Flights</string>
+    <string name="viewAirportMaps">View Airport Maps</string>
+    <string name="viewAirportMapsDescription">View Airport Maps</string>
+    <string name="viewGoogleMap">View Google Map</string>
+    <string name="viewGoogleMapDescription">View Google Map</string>
+   
+    <string name="details_tab_title">Details</string>
+    <string name="flights_tab_title">Flights</string>
+    
 </resources>
