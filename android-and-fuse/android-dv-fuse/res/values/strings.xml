@@ -20,5 +20,7 @@
     <string name="viewGoogleMap">View Google Map</string>
     <string name="viewGoogleMapDescription">View Google Map</string>
    
-
+    <string name="details_tab_title">Details</string>
+    <string name="flights_tab_title">Flights</string>
+    
 </resources>
