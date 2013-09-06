@@ -24,40 +24,6 @@ import android.os.Bundle;
  */
 public final class DetailsScreen extends Activity {
 
-    private Fragment detailsFragment;
-
-    private Fragment flightsFragment;
-
-    void handleDetailsTabReselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleDetailsTabSelected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleDetailsTabUnselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabReselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabSelected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabUnselected() {
-        // TODO Auto-generated method stub
-
-    }
-
     /**
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */

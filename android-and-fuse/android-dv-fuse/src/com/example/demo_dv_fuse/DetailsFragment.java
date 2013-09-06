@@ -15,11 +15,16 @@ package com.example.demo_dv_fuse;
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.AsyncTaskLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * The details tab UI.
@@ -27,6 +32,16 @@ import android.view.ViewGroup;
 public final class DetailsFragment extends Fragment implements LoaderCallbacks<Void> {
 
     static final String ID = DetailsFragment.class.getSimpleName();
+
+    void handleViewAirportMapsSelected() {
+        final Intent intent = new Intent(getActivity(), MapGalleryScreen.class);
+        startActivity(intent);
+        // Toast.makeText(getView().getContext(), "Show Airport Maps Here", Toast.LENGTH_SHORT).show();
+    }
+
+    void handleViewGoogleMap() {
+        Toast.makeText(getView().getContext(), "Show Google Map Here", Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
@@ -75,7 +90,33 @@ public final class DetailsFragment extends Fragment implements LoaderCallbacks<V
     public View onCreateView( final LayoutInflater inflater,
                               final ViewGroup container,
                               final Bundle savedInstanceState ) {
-        return inflater.inflate(R.layout.details_tab, container, false);
+        final View view = inflater.inflate(R.layout.details_tab, container, false);
+
+        final String[] choices = {getString(R.string.viewAirportMaps), getString(R.string.viewGoogleMapDescription)};
+        final ListView listView = (ListView)view.findViewById(R.id.detailsList);
+        listView.setAdapter(new ArrayAdapter<String>(container.getContext(), android.R.layout.simple_selectable_list_item,
+                                                     choices));
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            /**
+             * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
+             *      android.view.View, int, long)
+             */
+            @Override
+            public void onItemClick( final AdapterView<?> adapterView,
+                                     final View parent,
+                                     final int position,
+                                     final long id ) {
+                if (position == 0) {
+                    handleViewAirportMapsSelected();
+                } else if (position == 1) {
+                    handleViewGoogleMap();
+                }
+            }
+        });
+
+        return view;
     }
 
     /**

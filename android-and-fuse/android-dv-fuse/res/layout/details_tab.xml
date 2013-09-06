@@ -37,54 +37,10 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        style="@style/ListItemStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="35dip"
-        android:gravity="center_vertical|left"
-        android:orientation="horizontal"
-        android:paddingBottom="2dip"
-        android:paddingLeft="4dip" >
-
-        <TextView
-            android:id="@android:id/text1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/viewAirportMaps"
-            android:textAppearance="@style/ListItemTextStyle" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:contentDescription="@string/viewAirportMapsDescription"
-            android:src="@drawable/list_item_arrow" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/ListItemStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="35dip"
-        android:gravity="center_vertical|left"
-        android:orientation="horizontal"
-        android:paddingBottom="2dip"
-        android:paddingLeft="4dip" >
-
-        <TextView
-            android:id="@android:id/text2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/viewGoogleMap"
-            android:textAppearance="@style/ListItemTextStyle" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:contentDescription="@string/viewGoogleMapDescription"
-            android:src="@drawable/list_item_arrow" />
-    </LinearLayout>
+    <ListView
+        android:id="@+id/detailsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>

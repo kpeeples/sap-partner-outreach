@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 	public void addListenerOnButton() {
 	 
 		spinner1 = (Spinner) findViewById(R.id.spinner1);
-		button1 = (Button) findViewById(R.id.button1);
+		button1 = (Button) findViewById(R.id.btnPrevious);
 		button1.setOnClickListener(new OnClickListener() {
 		
 			@Override
