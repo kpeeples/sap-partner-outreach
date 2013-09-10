@@ -22,13 +22,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * A screen that displays a set of maps by using swipe gestures.
  */
 public final class MapGalleryScreen extends Activity {
 
-    static final int[] MAP_IDS = {R.drawable.map_a, R.drawable.map_b, R.drawable.map_c};
+    static final int[] MAP_IDS = {R.drawable.las_terminal, R.drawable.las_concourse_a_b_c_540_nl,
+                                  R.drawable.las_concourse_d_540_nl, R.drawable.las_terminal_3_540_nl};
+
+    static final int[] MAP_SUBTITLES = {-1, R.string.las_terminal_1_abc, R.string.las_terminal_1_d,
+                                        R.string.las_terminal_3};
 
     private LayoutInflater inflater;
 
@@ -85,6 +90,17 @@ public final class MapGalleryScreen extends Activity {
         public Object instantiateItem( final ViewGroup container,
                                        final int position ) {
             final View view = inflater().inflate(R.layout.map_gallery_page, null);
+
+            { // subtitle
+                String subtitle = ""; //$NON-NLS-1$
+
+                if (MAP_SUBTITLES[position] != -1) {
+                    subtitle = getString(MAP_SUBTITLES[position]);
+                }
+
+                final TextView title = (TextView)view.findViewById(R.id.map_subtitle);
+                title.setText(subtitle);
+            }
 
             { // load map image
                 final ImageView map = (ImageView)view.findViewById(R.id.mapImage);

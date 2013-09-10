@@ -19,12 +19,19 @@
     <string name="viewGoogleMap">Google Map View</string>
     <string name="viewGoogleMapDescription">View Google Map</string>
    
+    <string name="arriving_flight_image_description">Arriving flight image</string>
+    <string name="available_maps">Maps</string>
     <string name="details_tab_title">Details</string>
+    <string name="departing_flight_image_description">Departing flight image</string>
     <string name="flights_tab_title">Flights</string>
+    <string name="Gate">Gate</string>
     <string name="map_gallery_screen">Map Gallery</string>
     <string name="map_screen">Location</string>
-    <string name="available_maps">Maps</string>
-    <string name="Gate">Gate</string>
     <string name="Terminal">Terminal</string>
+    <string name="terminal_map_image_description">Terminal map image</string>
     
+    <string name="las_airport">McCarran International Airport (LAS)</string>
+    <string name="las_terminal_1_abc">Terminal 1: Concourse A, Concourse B, Concourse C</string>
+    <string name="las_terminal_1_d">Terminal 1: Concourse D</string>
+    <string name="las_terminal_3">Terminal 3</string>
 </resources>
