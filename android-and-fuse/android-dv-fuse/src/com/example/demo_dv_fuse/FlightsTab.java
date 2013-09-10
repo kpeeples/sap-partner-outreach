@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 /**
  * The available flights tab UI.
  */
-public final class FlightsFragment extends Fragment implements LoaderCallbacks<Void> {
+public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> {
 
-    static final String ID = FlightsFragment.class.getSimpleName();
+    static final String ID = FlightsTab.class.getSimpleName();
 
     /**
      * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
