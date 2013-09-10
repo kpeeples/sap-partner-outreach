@@ -86,12 +86,12 @@ public final class MapGalleryScreen extends Activity {
                                        final int position ) {
             final View view = inflater().inflate(R.layout.map_gallery_page, null);
 
-            {
+            { // load map image
                 final ImageView map = (ImageView)view.findViewById(R.id.mapImage);
                 map.setImageResource(MAP_IDS[position]);
             }
 
-            {
+            { // hook up left button
                 final Button btnLeft = (Button)view.findViewById(R.id.btnPrevious);
 
                 if (position == 0) {
@@ -110,7 +110,7 @@ public final class MapGalleryScreen extends Activity {
                 }
             }
 
-            {
+            { // hook up right button
                 final Button btnRight = (Button)view.findViewById(R.id.btnNext);
 
                 if (position == (MAP_IDS.length - 1)) {

@@ -6,25 +6,37 @@
 
     <Button
         android:id="@+id/btnPrevious"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
-        android:text="&lt;" />
+        android:layout_margin="0dp"
+        android:drawableStart="@android:drawable/ic_media_previous"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:padding="0dp"
+        android:textSize="0sp" />
 
     <ImageView
         android:id="@+id/mapImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:adjustViewBounds="true"
         android:scaleType="centerInside" />
 
     <Button
         android:id="@+id/btnNext"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
-        android:text="&gt;" />
+        android:layout_margin="0dp"
+        android:drawableStart="@android:drawable/ic_media_next"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:padding="0dp"
+        android:textSize="0sp" />
 
 </LinearLayout>

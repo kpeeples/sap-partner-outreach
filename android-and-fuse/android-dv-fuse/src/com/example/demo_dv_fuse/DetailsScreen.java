@@ -34,19 +34,19 @@ public final class DetailsScreen extends Activity {
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE);
 
         // details tab
         actionBar.addTab(actionBar.newTab()
                                   .setText(getString(R.string.details_tab_title))
-                                  .setTabListener(new TabListener<DetailsFragment>(this, DetailsFragment.ID,
-                                                                                   DetailsFragment.class)));
+                                  .setTabListener(new TabListener<DetailsTab>(this, DetailsTab.ID,
+                                                                                   DetailsTab.class)));
 
         // flights tab
         actionBar.addTab(actionBar.newTab()
                                   .setText(getString(R.string.flights_tab_title))
-                                  .setTabListener(new TabListener<FlightsFragment>(this, FlightsFragment.ID,
-                                                                                   FlightsFragment.class)));
+                                  .setTabListener(new TabListener<FlightsTab>(this, FlightsTab.ID,
+                                                                                   FlightsTab.class)));
     }
 
     class TabListener<T extends Fragment> implements ActionBar.TabListener {

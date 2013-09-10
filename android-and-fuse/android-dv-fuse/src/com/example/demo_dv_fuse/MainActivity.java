@@ -29,6 +29,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		@SuppressWarnings("unused")
+		final PrefMgr prefMgr = new PrefMgr(this);
+
 		setContentView(R.layout.activity_main);
 		
 		addItemsOnSpinner1();
@@ -36,15 +40,6 @@ public class MainActivity extends Activity {
 	
 		
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-	
-
 	
 	// add items into spinner dynamically
 	public void addItemsOnSpinner1() {	
