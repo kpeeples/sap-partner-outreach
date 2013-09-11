@@ -27,7 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnPrevious"
         android:layout_width="213dp"
         android:layout_height="wrap_content"
         android:layout_x="13dp"
@@ -44,7 +44,7 @@
         android:visibility="visible" />
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/detailsList"
         android:layout_width="match_parent"
         android:layout_height="349dp"
         android:layout_x="1dp"

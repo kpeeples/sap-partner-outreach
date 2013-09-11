@@ -24,40 +24,6 @@ import android.os.Bundle;
  */
 public final class DetailsScreen extends Activity {
 
-    private Fragment detailsFragment;
-
-    private Fragment flightsFragment;
-
-    void handleDetailsTabReselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleDetailsTabSelected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleDetailsTabUnselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabReselected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabSelected() {
-        // TODO Auto-generated method stub
-
-    }
-
-    void handleFlightsTabUnselected() {
-        // TODO Auto-generated method stub
-
-    }
-
     /**
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -68,19 +34,19 @@ public final class DetailsScreen extends Activity {
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE);
 
         // details tab
         actionBar.addTab(actionBar.newTab()
                                   .setText(getString(R.string.details_tab_title))
-                                  .setTabListener(new TabListener<DetailsFragment>(this, DetailsFragment.ID,
-                                                                                   DetailsFragment.class)));
+                                  .setTabListener(new TabListener<DetailsTab>(this, DetailsTab.ID,
+                                                                                   DetailsTab.class)));
 
         // flights tab
         actionBar.addTab(actionBar.newTab()
                                   .setText(getString(R.string.flights_tab_title))
-                                  .setTabListener(new TabListener<FlightsFragment>(this, FlightsFragment.ID,
-                                                                                   FlightsFragment.class)));
+                                  .setTabListener(new TabListener<FlightsTab>(this, FlightsTab.ID,
+                                                                                   FlightsTab.class)));
     }
 
     class TabListener<T extends Fragment> implements ActionBar.TabListener {
