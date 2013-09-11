@@ -34,4 +34,11 @@
     <string name="las_terminal_1_abc">Terminal 1: Concourse A, Concourse B, Concourse C</string>
     <string name="las_terminal_1_d">Terminal 1: Concourse D</string>
     <string name="las_terminal_3">Terminal 3</string>
+    
+    <string name="carrier_heading">Carrier</string>
+    <string name="flight_number_heading">Flight\nNumber</string>
+    <string name="departure_time_heading">Departs</string>
+    <string name="departure_airport_heading">From</string>
+    <string name="arrival_time_heading">Arrives</string>
+    <string name="arrival_airport_heading">To</string>
 </resources>
