@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.jboss.example</groupId>
+  <groupId>com.mycompany</groupId>
   <artifactId>camel-spring</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0-SNAPSHOT</version>
@@ -70,14 +70,23 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-core</artifactId>
-      <version>2.10.0.redhat-60024</version>
+      <version>2.12.0.redhat-610-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-spring</artifactId>
-      <version>2.10.0.redhat-60024</version>
+      <version>2.12.0.redhat-610-SNAPSHOT</version>
     </dependency>
-
+    <dependency>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>camel-sap-netweaver</artifactId>
+	 	<version>2.12.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	    <dependency>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>camel-rss</artifactId>
+	 	<version>2.12.0.redhat-610-SNAPSHOT</version>
+	</dependency>
     <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -99,7 +108,7 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test-spring</artifactId>
-      <version>2.10.0.redhat-60024</version>
+      <version>2.12.0.redhat-610-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
 
@@ -131,7 +140,7 @@
       <plugin>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-maven-plugin</artifactId>
-        <version>2.10.0.redhat-60024</version>
+        <version>2.12.0.redhat-610-SNAPSHOT</version>
       </plugin>
     </plugins>
   </build>

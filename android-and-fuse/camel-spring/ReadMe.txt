@@ -13,3 +13,44 @@ or to run the route from within Maven try
 For more help see the Apache Camel documentation
 
     http://camel.apache.org/
+
+    
+    
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <camelContext xmlns="http://camel.apache.org/schema/spring">
+    <route>
+        <description>here is a sample which processes the input files
+         (leaving them in place - see the 'noop' flag)
+         then performs content based routing on the message using XPath</description>
+        <from uri="file:src/sap-netweaver?fileName=command.txt&amp;noop=true"/>
+        <setHeader headerName="CamelNetWeaverCommand">
+            <simple>in.body</simple>
+        </setHeader>
+        <to uri="sap-netweaver:https://sapes1.sapdevcenter.com/sap/opu/odata/IWFND/RMTSAMPLEFLIGHT/?username=P1940066098&amp;password=testpassword&amp;json=false"/>
+        <to uri="file:target/data?fileName=OUTPUT_SAP.xml"/>
+        <to uri="log:out"/>
+        <choice>
+            <when>
+                <xpath>//entry[contains(id,'AA')]</xpath>
+                <log message="\n\nfound AA"/>
+                <to uri="log:out"/>
+                <stop/>
+            </when>
+            <otherwise>
+                <log message="none"/>
+                <stop/>
+            </otherwise>
+        </choice>
+    </route>
+</camelContext>
+
+</beans>
