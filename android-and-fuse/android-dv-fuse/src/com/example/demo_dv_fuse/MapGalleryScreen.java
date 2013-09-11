@@ -12,7 +12,12 @@
  */
 package com.example.demo_dv_fuse;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -29,17 +34,17 @@ import android.widget.TextView;
  */
 public final class MapGalleryScreen extends Activity {
 
-    static final int[] MAP_IDS = {R.drawable.las_terminal, R.drawable.las_concourse_a_b_c_540_nl,
-                                  R.drawable.las_concourse_d_540_nl, R.drawable.las_terminal_3_540_nl};
-
-    static final int[] MAP_SUBTITLES = {-1, R.string.las_terminal_1_abc, R.string.las_terminal_1_d,
-                                        R.string.las_terminal_3};
-
     private LayoutInflater inflater;
 
     private ViewPager mapPager;
 
     private PagerAdapter pageAdapter;
+
+    private List<String> subtitles;
+
+    private List<String> titles;
+
+    private List<String> uris;
 
     void goToMap( final int index ) {
         this.mapPager.setCurrentItem(index);
@@ -47,6 +52,49 @@ public final class MapGalleryScreen extends Activity {
 
     LayoutInflater inflater() {
         return this.inflater;
+    }
+
+    void loadData() {
+        final SharedPreferences prefs = PrefMgr.get().prefs();
+        final int mapCount = prefs.getInt(PrefMgr.Preference.MAP_COUNT, 0);
+
+        if (mapCount == 0) {
+            this.uris = Collections.emptyList();
+            this.titles = Collections.emptyList();
+            this.subtitles = Collections.emptyList();
+        } else {
+            this.uris = new ArrayList<String>(mapCount);
+            this.titles = new ArrayList<String>(mapCount);
+            this.subtitles = new ArrayList<String>(mapCount);
+
+            for (int i = 0; i < mapCount; ++i) {
+                this.uris.add(prefs.getString((PrefMgr.Preference.MAP_URI + i), "")); //$NON-NLS-1$
+                this.titles.add(prefs.getString((PrefMgr.Preference.MAP_TITLE + i), "")); //$NON-NLS-1$
+                this.subtitles.add(prefs.getString((PrefMgr.Preference.MAP_SUBTITLE + i), "")); //$NON-NLS-1$
+            }
+        }
+
+        this.pageAdapter.notifyDataSetChanged();
+    }
+
+    int mapCount() {
+        if (this.uris == null) {
+            return 0;
+        }
+
+        return this.uris.size();
+    }
+
+    String mapSubtitle( final int index ) {
+        return ((this.subtitles == null) ? "" : this.subtitles.get(index)); //$NON-NLS-1$
+    }
+
+    String mapTitle( final int index ) {
+        return ((this.titles == null) ? "" : this.titles.get(index)); //$NON-NLS-1$
+    }
+
+    String mapUri( final int index ) {
+        return ((this.uris == null) ? "" : this.uris.get(index)); //$NON-NLS-1$
     }
 
     /**
@@ -61,6 +109,8 @@ public final class MapGalleryScreen extends Activity {
         this.pageAdapter = new ImagePageAdapter();
         this.mapPager = (ViewPager)findViewById(R.id.map_pager);
         this.mapPager.setAdapter(this.pageAdapter);
+
+        loadData();
     }
 
     class ImagePageAdapter extends PagerAdapter {
@@ -80,7 +130,7 @@ public final class MapGalleryScreen extends Activity {
          */
         @Override
         public int getCount() {
-            return MAP_IDS.length;
+            return mapCount();
         }
 
         /**
@@ -91,20 +141,19 @@ public final class MapGalleryScreen extends Activity {
                                        final int position ) {
             final View view = inflater().inflate(R.layout.map_gallery_page, null);
 
-            { // subtitle
-                String subtitle = ""; //$NON-NLS-1$
-
-                if (MAP_SUBTITLES[position] != -1) {
-                    subtitle = getString(MAP_SUBTITLES[position]);
-                }
-
+            { // title
                 final TextView title = (TextView)view.findViewById(R.id.map_subtitle);
-                title.setText(subtitle);
+                title.setText(mapTitle(position));
+            }
+
+            { // subtitle
+                final TextView title = (TextView)view.findViewById(R.id.map_subtitle);
+                title.setText(mapSubtitle(position));
             }
 
             { // load map image
                 final ImageView map = (ImageView)view.findViewById(R.id.mapImage);
-                map.setImageResource(MAP_IDS[position]);
+                map.setImageURI(Uri.parse(mapUri(position)));
             }
 
             { // hook up left button
@@ -129,7 +178,7 @@ public final class MapGalleryScreen extends Activity {
             { // hook up right button
                 final Button btnRight = (Button)view.findViewById(R.id.btnNext);
 
-                if (position == (MAP_IDS.length - 1)) {
+                if (position == (mapCount() - 1)) {
                     btnRight.setEnabled(false);
                 } else {
                     btnRight.setOnClickListener(new OnClickListener() {

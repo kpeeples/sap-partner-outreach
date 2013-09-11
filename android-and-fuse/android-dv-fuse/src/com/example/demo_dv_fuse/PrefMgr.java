@@ -14,6 +14,7 @@ package com.example.demo_dv_fuse;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 final class PrefMgr {
 
@@ -36,6 +37,23 @@ final class PrefMgr {
         _prefMgr = this;
     }
 
+    void clearMaps() {
+        final int mapCount = this.prefs.getInt(Preference.MAP_COUNT, 0);
+
+        if (mapCount != 0) {
+            final Editor editor = this.prefs.edit();
+            editor.remove(Preference.MAP_COUNT);
+
+            for (int i = 0; i < mapCount; ++i) {
+                editor.remove(Preference.MAP_URI + i);
+                editor.remove(Preference.MAP_TITLE + i);
+                editor.remove(Preference.MAP_SUBTITLE + i);
+            }
+
+            editor.apply();
+        }
+    }
+
     SharedPreferences prefs() {
         return this.prefs;
     }
@@ -52,6 +70,12 @@ final class PrefMgr {
         String DEPARTURE_IATA = "departure.iata"; //$NON-NLS-1$
         String DEPARTURE_STATUS = "departure.status"; //$NON-NLS-1$
         String DEPARTURE_TIME = "departure.time"; //$NON-NLS-1$
+
+        String MAP_COUNT = "map.count"; //$NON-NLS-1$
+        String MAP_SUBTITLE = "map.subtitle."; //$NON-NLS-1$
+        String MAP_TITLE = "map.title."; //$NON-NLS-1$
+        String MAP_URI = "map.uri."; //$NON-NLS-1$
+
     }
 
 }
