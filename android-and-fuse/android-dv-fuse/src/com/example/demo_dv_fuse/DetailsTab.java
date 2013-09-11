@@ -49,6 +49,7 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
     private TextView departureTime;
 
     void handleViewAirportMapsSelected() {
+        loadGalleryData();
         final Intent intent = new Intent(getActivity(), MapGalleryScreen.class);
         startActivity(intent);
     }
@@ -83,6 +84,39 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
         this.arrivalGate.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_GATE, defaultValue));
         this.arrivalTerminal.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_TERMINAL,
                                                                             defaultValue));
+    }
+
+    void loadGalleryData() {
+        PrefMgr.get().clearMaps();
+        final SharedPreferences prefs = PrefMgr.get().prefs();
+        final Editor editor = prefs.edit();
+
+        editor.putInt(PrefMgr.Preference.MAP_COUNT, 4);
+
+        { // uris
+            final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
+
+            editor.putString((PrefMgr.Preference.MAP_URI + "0"), uriPrefix + R.drawable.las_terminal); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_URI + "1"), uriPrefix + R.drawable.las_concourse_a_b_c_540_nl); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_URI + "2"), uriPrefix + R.drawable.las_concourse_d_540_nl); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_URI + "3"), uriPrefix + R.drawable.las_terminal_3_540_nl); //$NON-NLS-1$
+        }
+
+        { // titles
+            editor.putString((PrefMgr.Preference.MAP_TITLE + "0"), getString(R.string.las_airport)); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_TITLE + "1"), getString(R.string.las_airport)); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_TITLE + "2"), getString(R.string.las_airport)); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_TITLE + "3"), getString(R.string.las_airport)); //$NON-NLS-1$
+        }
+
+        { // subtitles
+            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "0"), ""); //$NON-NLS-1$  //$NON-NLS-2$
+            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "1"), getString(R.string.las_terminal_1_abc)); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "2"), getString(R.string.las_terminal_1_d)); //$NON-NLS-1$
+            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "3"), getString(R.string.las_terminal_3)); //$NON-NLS-1$
+        }
+
+        editor.apply();
     }
 
     /**
