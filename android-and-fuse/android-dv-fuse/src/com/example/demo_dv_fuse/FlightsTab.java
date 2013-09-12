@@ -13,12 +13,8 @@
 package com.example.demo_dv_fuse;
 
 import java.util.ArrayList;
-import java.util.List;
 import android.app.Fragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,27 +24,30 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import com.example.demo_dv_fuse.model.Flight;
+import com.example.demo_dv_fuse.model.FlightParcelable;
 
 /**
  * The available flights tab UI.
  */
-public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> {
+public final class FlightsTab extends Fragment {
 
     static final String ID = FlightsTab.class.getSimpleName();
 
-    private final List<Flight> flights = new ArrayList<Flight>();
-
     private TableLayout tableLayout;
 
-    void addFlight( final Flight flight ) {
-        this.flights.add(flight);
+    void handleFlightClicked( final int flightIndex ) {
+        // TODO make sure Book It button is enabled
     }
 
     private void loadFlights() {
+        final ArrayList<FlightParcelable> data = getActivity().getIntent()
+                                                              .getParcelableArrayListExtra(FlightParcelable.ALTERNATIVE_FLIGHTS);
+
         final Context context = getActivity();
         int i = 0;
 
-        for (final Flight flight : this.flights) {
+        for (final FlightParcelable flightParcelable : data) {
+            final Flight flight = flightParcelable.getFlight();
             final TableRow row = new TableRow(context);
             row.setClickable(true);
             row.setFocusableInTouchMode(true);
@@ -105,7 +104,7 @@ public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> 
                  * @see android.view.View.OnClickListener#onClick(android.view.View)
                  */
                 @Override
-                public void onClick( View view ) {
+                public void onClick( final View view ) {
                     handleFlightClicked(index);
                 }
             });
@@ -116,10 +115,6 @@ public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> 
         }
     }
 
-    void handleFlightClicked( int flightIndex ) {
-        // TODO make sure Book It button is enabled
-    }
-
     /**
      * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
      */
@@ -127,37 +122,6 @@ public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> 
     public void onActivityCreated( final Bundle newSavedInstanceState ) {
         super.onActivityCreated(newSavedInstanceState);
         setRetainInstance(true);
-
-        // initiate the loader to do the background work
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
-     */
-    @Override
-    public Loader<Void> onCreateLoader( final int id,
-                                        final Bundle args ) {
-        final AsyncTaskLoader<Void> loader = new AsyncTaskLoader<Void>(getActivity()) {
-
-            /**
-             * @see android.support.v4.content.AsyncTaskLoader#loadInBackground()
-             */
-            @Override
-            public Void loadInBackground() {
-                // TODO: replace with call to get flights
-                addFlight(new Flight("American", "100", "1:00 PM", "ORD", "3:00 PM", "LAS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                addFlight(new Flight("Delta", "200", "2:00 PM", "ORD", "4:00 PM", "LAS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                addFlight(new Flight("Virgin", "300", "3:00 PM", "ORD", "5:00 PM", "LAS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                addFlight(new Flight("United", "400", "4:00 PM", "ORD", "6:00 PM", "LAS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-                addFlight(new Flight("Southwest", "500", "5:00 PM", "ORD", "6:00 PM", "LAS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-
-                return null;
-            }
-        };
-
-        loader.forceLoad();
-        return loader;
     }
 
     /**
@@ -170,25 +134,8 @@ public final class FlightsTab extends Fragment implements LoaderCallbacks<Void> 
                               final Bundle savedInstanceState ) {
         final View flightsTab = inflater.inflate(R.layout.flights_tab, container, false);
         this.tableLayout = (TableLayout)flightsTab.findViewById(R.id.flights_table);
+        loadFlights();
         return flightsTab;
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
-     */
-    @Override
-    public void onLoaderReset( final Loader<Void> loader ) {
-        loadFlights();
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader,
-     *      java.lang.Object)
-     */
-    @Override
-    public void onLoadFinished( final Loader<Void> loader,
-                                final Void data ) {
-        loadFlights();
     }
 
 }

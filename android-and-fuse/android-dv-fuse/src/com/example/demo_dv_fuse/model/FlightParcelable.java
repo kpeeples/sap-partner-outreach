@@ -21,9 +21,14 @@ import android.os.Parcelable;
 public final class FlightParcelable implements Parcelable {
 
     /**
+     * The parcelabale identifier for the alternative flight array from the details tab.
+     */
+    public static final String ALTERNATIVE_FLIGHTS = "alternative_flights"; //$NON-NLS-1$
+
+    /**
      * Used to un-marshal or de-serialize a flight from a parcel.
      */
-    public static final Parcelable.Creator<FlightParcelable> CREATOR = new Parcelable.Creator<FlightParcelable>() {
+    public static final Creator<FlightParcelable> CREATOR = new Creator<FlightParcelable>() {
 
         /**
          * @see android.os.Parcelable.Creator#createFromParcel(android.os.Parcel)
@@ -42,10 +47,15 @@ public final class FlightParcelable implements Parcelable {
         }
     };
 
+    /**
+     * The parcelabale identifier for the selected flight from the main screen.
+     */
+    public static final String SELECTED_FLIGHT = "selected_flight"; //$NON-NLS-1$
+
     private final Flight flight;
 
     /**
-     * @param flightModel the flight model (cannot be <code>null</code> or empty)
+     * @param flightModel the flight model (cannot be <code>null</code>)
      */
     public FlightParcelable( final Flight flightModel ) {
         this.flight = flightModel;
@@ -53,13 +63,17 @@ public final class FlightParcelable implements Parcelable {
 
     FlightParcelable( final Parcel in ) {
         final String arrivalAirportCode = in.readString();
+        final String arrivalGate = in.readString();
+        final String arrivalTerminal = in.readString();
         final String arrivalTime = in.readString();
         final String carrier = in.readString();
         final String departureAirportCode = in.readString();
         final String departureTime = in.readString();
         final String flightNumber = in.readString();
-        this.flight = new Flight(arrivalAirportCode, arrivalTime, carrier, departureAirportCode, departureTime,
-                                 flightNumber);
+        final String iata = in.readString();
+        final String flightStatus = in.readString();
+        this.flight = new Flight(carrier, iata, flightNumber, departureTime, departureAirportCode, arrivalTime,
+                                 arrivalAirportCode, arrivalTerminal, arrivalGate, flightStatus);
     }
 
     /**
@@ -71,17 +85,28 @@ public final class FlightParcelable implements Parcelable {
     }
 
     /**
+     * @return the flight model object (never <code>null</code>)
+     */
+    public Flight getFlight() {
+        return this.flight;
+    }
+
+    /**
      * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
      */
     @Override
     public void writeToParcel( final Parcel dest,
                                final int flags ) {
         dest.writeString(this.flight.getArrivalAirportCode());
+        dest.writeString(this.flight.getArrivalGate());
+        dest.writeString(this.flight.getArrivalTerminal());
         dest.writeString(this.flight.getArrivalTime());
         dest.writeString(this.flight.getCarrier());
         dest.writeString(this.flight.getDepartureAirportCode());
         dest.writeString(this.flight.getDepartureTime());
         dest.writeString(this.flight.getFlightNumber());
+        dest.writeString(this.flight.getIata());
+        dest.writeString(this.flight.getStatus());
     }
 
 }
