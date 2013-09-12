@@ -19,6 +19,10 @@ public final class Flight {
 
     private final String arrivalAirportCode;
 
+    private final String arrivalGate;
+
+    private final String arrivalTerminal;
+
     private final String arrivalTime;
 
     private final String carrier;
@@ -29,34 +33,42 @@ public final class Flight {
 
     private final String flightNumber;
 
+    private final String iata;
+
+    private final String status;
+
     /**
      * @param theCarrier the carrier (cannot be <code>null</code> or empty)
+     * @param theIata the carrier IATA code (cannot be <code>null</code> or empty)
      * @param theFlightNumber the carrier (cannot be <code>null</code> or empty)
      * @param theDepartureTime the carrier (cannot be <code>null</code> or empty)
      * @param theDepartureAirportCode the carrier (cannot be <code>null</code> or empty)
      * @param theArrivalTime the carrier (cannot be <code>null</code> or empty)
      * @param theArrivalAirportCode the carrier (cannot be <code>null</code> or empty)
+     * @param theArrivalTerminal the carrier (cannot be <code>null</code> or empty)
+     * @param theArrivalGate the carrier (cannot be <code>null</code> or empty)
+     * @param theFlightStatus the flight status (cannot be <code>null</code> or empty)
      */
     public Flight( final String theCarrier,
+                   final String theIata,
                    final String theFlightNumber,
                    final String theDepartureTime,
                    final String theDepartureAirportCode,
                    final String theArrivalTime,
-                   final String theArrivalAirportCode ) {
-        if (((theCarrier == null) || theCarrier.isEmpty()) || ((theFlightNumber == null) || theFlightNumber.isEmpty())
-                        || ((theDepartureTime == null) || theDepartureTime.isEmpty())
-                        || ((theDepartureAirportCode == null) || theDepartureAirportCode.isEmpty())
-                        || ((theArrivalTime == null) || theArrivalTime.isEmpty())
-                        || ((theArrivalAirportCode == null) || theArrivalAirportCode.isEmpty())) {
-            throw new RuntimeException();
-        }
-
+                   final String theArrivalAirportCode,
+                   final String theArrivalTerminal,
+                   final String theArrivalGate,
+                   final String theFlightStatus ) {
         this.carrier = theCarrier;
+        this.iata = theIata;
         this.flightNumber = theFlightNumber;
         this.departureTime = theDepartureTime;
         this.departureAirportCode = theDepartureAirportCode;
         this.arrivalTime = theArrivalTime;
         this.arrivalAirportCode = theArrivalAirportCode;
+        this.arrivalTerminal = theArrivalTerminal;
+        this.arrivalGate = theArrivalGate;
+        this.status = theFlightStatus;
     }
 
     /**
@@ -64,6 +76,20 @@ public final class Flight {
      */
     public String getArrivalAirportCode() {
         return this.arrivalAirportCode;
+    }
+
+    /**
+     * @return the arrival gate (never <code>null</code> or empty)
+     */
+    public String getArrivalGate() {
+        return this.arrivalGate;
+    }
+
+    /**
+     * @return the arrival time (never <code>null</code> or empty)
+     */
+    public String getArrivalTerminal() {
+        return this.arrivalTerminal;
     }
 
     /**
@@ -99,6 +125,20 @@ public final class Flight {
      */
     public String getFlightNumber() {
         return this.flightNumber;
+    }
+
+    /**
+     * @return the carrier IATA code (never <code>null</code> or empty)
+     */
+    public String getIata() {
+        return this.iata;
+    }
+
+    /**
+     * @return the flight status (never <code>null</code> or empty)
+     */
+    public String getStatus() {
+        return this.status;
     }
 
 }
