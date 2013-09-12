@@ -12,13 +12,9 @@
  */
 package com.example.demo_dv_fuse;
 
+import java.util.ArrayList;
 import android.app.Fragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.AsyncTaskLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +23,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.example.demo_dv_fuse.model.Flight;
+import com.example.demo_dv_fuse.model.FlightParcelable;
+import com.example.demo_dv_fuse.model.TerminalMap;
+import com.example.demo_dv_fuse.model.TerminalMapParcelable;
 
 /**
  * The details tab UI.
  */
-public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> {
+public final class DetailsTab extends Fragment {
 
     private static final int AIRPORT_MAPS_INDEX = 1; // list header is index zero
     private static final int GOOGLE_MAPS_INDEX = 2;
@@ -48,9 +48,11 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
     private TextView departureStatus;
     private TextView departureTime;
 
+    private Flight flight;
+
     void handleViewAirportMapsSelected() {
-        loadGalleryData();
         final Intent intent = new Intent(getActivity(), MapGalleryScreen.class);
+        loadGalleryData(intent);
         startActivity(intent);
     }
 
@@ -59,64 +61,38 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
         startActivity(intent);
     }
 
-    void loadData( final boolean clear ) {
-        final String defaultValue = ""; //$NON-NLS-1$
-        final SharedPreferences prefs = PrefMgr.get().prefs();
-
+    void loadFlightInfo() {
         // departure data
-        this.departureIata.setText(clear ? defaultValue : '(' + prefs.getString(PrefMgr.Preference.DEPARTURE_IATA,
-                                                                                defaultValue) + ')');
-        this.departureAirlines.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.DEPARTURE_AIRLINES,
-                                                                              defaultValue));
-        this.departureFlightNumber.setText(clear ? defaultValue
-                        : prefs.getString(PrefMgr.Preference.DEPARTURE_FLIGHT_NUMBER, defaultValue));
-        this.departureTime.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.DEPARTURE_TIME,
-                                                                          defaultValue));
-        this.departureAirportCode.setText(clear ? defaultValue
-                        : prefs.getString(PrefMgr.Preference.DEPARTURE_AIRPORT_CODE, defaultValue));
-        this.departureStatus.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.DEPARTURE_STATUS,
-                                                                            defaultValue));
+        this.departureIata.setText(this.flight.getIata());
+        this.departureAirlines.setText(this.flight.getCarrier());
+        this.departureFlightNumber.setText(this.flight.getFlightNumber());
+        this.departureTime.setText(this.flight.getDepartureTime());
+        this.departureAirportCode.setText(this.flight.getDepartureAirportCode());
+        this.departureStatus.setText(this.flight.getStatus());
 
         // arrival data
-        this.arrivalTime.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_TIME, defaultValue));
-        this.arrivalAirportCode.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_AIRPORT_CODE,
-                                                                               defaultValue));
-        this.arrivalGate.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_GATE, defaultValue));
-        this.arrivalTerminal.setText(clear ? defaultValue : prefs.getString(PrefMgr.Preference.ARRIVAL_TERMINAL,
-                                                                            defaultValue));
+        this.arrivalTime.setText(this.flight.getArrivalTime());
+        this.arrivalAirportCode.setText(this.flight.getArrivalAirportCode());
+        this.arrivalGate.setText(this.flight.getArrivalGate());
+        this.arrivalTerminal.setText(this.flight.getArrivalTerminal());
     }
 
-    void loadGalleryData() {
-        PrefMgr.get().clearMaps();
-        final SharedPreferences prefs = PrefMgr.get().prefs();
-        final Editor editor = prefs.edit();
-
-        editor.putInt(PrefMgr.Preference.MAP_COUNT, 4);
-
-        { // uris
-            final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
-
-            editor.putString((PrefMgr.Preference.MAP_URI + "0"), uriPrefix + R.drawable.las_terminal); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_URI + "1"), uriPrefix + R.drawable.las_concourse_a_b_c_540_nl); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_URI + "2"), uriPrefix + R.drawable.las_concourse_d_540_nl); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_URI + "3"), uriPrefix + R.drawable.las_terminal_3_540_nl); //$NON-NLS-1$
-        }
-
-        { // titles
-            editor.putString((PrefMgr.Preference.MAP_TITLE + "0"), getString(R.string.las_airport)); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_TITLE + "1"), getString(R.string.las_airport)); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_TITLE + "2"), getString(R.string.las_airport)); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_TITLE + "3"), getString(R.string.las_airport)); //$NON-NLS-1$
-        }
-
-        { // subtitles
-            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "0"), ""); //$NON-NLS-1$  //$NON-NLS-2$
-            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "1"), getString(R.string.las_terminal_1_abc)); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "2"), getString(R.string.las_terminal_1_d)); //$NON-NLS-1$
-            editor.putString((PrefMgr.Preference.MAP_SUBTITLE + "3"), getString(R.string.las_terminal_3)); //$NON-NLS-1$
-        }
-
-        editor.apply();
+    void loadGalleryData( final Intent intent ) {
+        // TODO load real data here
+        final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
+        final ArrayList<TerminalMapParcelable> data = new ArrayList<TerminalMapParcelable>(4);
+        data.add(new TerminalMapParcelable(new TerminalMap(uriPrefix + R.drawable.las_terminal,
+                                                           getString(R.string.las_airport), null)));
+        data.add(new TerminalMapParcelable(new TerminalMap(uriPrefix + R.drawable.las_concourse_a_b_c_540_nl,
+                                                           getString(R.string.las_airport),
+                                                           getString(R.string.las_terminal_1_abc))));
+        data.add(new TerminalMapParcelable(new TerminalMap(uriPrefix + R.drawable.las_concourse_d_540_nl,
+                                                           getString(R.string.las_airport),
+                                                           getString(R.string.las_terminal_1_d))));
+        data.add(new TerminalMapParcelable(new TerminalMap(uriPrefix + R.drawable.las_terminal_3_540_nl,
+                                                           getString(R.string.las_airport),
+                                                           getString(R.string.las_terminal_3))));
+        intent.putParcelableArrayListExtra(TerminalMapParcelable.TERMINAL_MAPS, data);
     }
 
     /**
@@ -127,45 +103,11 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
 
-        // initiate the loader to do the background work
-        getLoaderManager().initLoader(0, null, this);
-    }
+        final FlightParcelable parcelable = getActivity().getIntent().getExtras()
+                                                         .getParcelable(FlightParcelable.SELECTED_FLIGHT);
+        this.flight = parcelable.getFlight();
 
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onCreateLoader(int, android.os.Bundle)
-     */
-    @Override
-    public Loader<Void> onCreateLoader( final int newArg0,
-                                        final Bundle newArg1 ) {
-        final AsyncTaskLoader<Void> loader = new AsyncTaskLoader<Void>(getActivity()) {
-
-            /**
-             * @see android.support.v4.content.AsyncTaskLoader#loadInBackground()
-             */
-            @Override
-            public Void loadInBackground() {
-                final SharedPreferences prefs = PrefMgr.get().prefs();
-                final Editor editor = prefs.edit();
-
-                editor.putString(PrefMgr.Preference.ARRIVAL_AIRPORT_CODE, "LAS"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.ARRIVAL_GATE, "C24"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.ARRIVAL_TERMINAL, "1"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.ARRIVAL_TIME, "1:59 PM"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_AIRLINES, "American Airlines"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_AIRPORT_CODE, "ORD"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_FLIGHT_NUMBER, "8307"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_IATA, "AA"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_STATUS, "DELAYED"); //$NON-NLS-1$
-                editor.putString(PrefMgr.Preference.DEPARTURE_TIME, "1:10 PM"); //$NON-NLS-1$
-
-                editor.apply();
-
-                return null;
-            }
-        };
-
-        loader.forceLoad();
-        return loader;
+        loadFlightInfo();
     }
 
     /**
@@ -221,24 +163,6 @@ public final class DetailsTab extends Fragment implements LoaderCallbacks<Void> 
         this.arrivalTime = (TextView)view.findViewById(R.id.arrival_time);
 
         return view;
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoaderReset(android.support.v4.content.Loader)
-     */
-    @Override
-    public void onLoaderReset( final Loader<Void> loader ) {
-        loadData(true);
-    }
-
-    /**
-     * @see android.support.v4.app.LoaderManager.LoaderCallbacks#onLoadFinished(android.support.v4.content.Loader,
-     *      java.lang.Object)
-     */
-    @Override
-    public void onLoadFinished( final Loader<Void> loader,
-                                final Void object ) {
-        loadData(false);
     }
 
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -28,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.demo_dv_fuse.model.TerminalMap;
+import com.example.demo_dv_fuse.model.TerminalMapParcelable;
 
 /**
  * A screen that displays a set of maps by using swipe gestures.
@@ -38,13 +39,9 @@ public final class MapGalleryScreen extends Activity {
 
     private ViewPager mapPager;
 
+    private List<TerminalMap> maps = Collections.emptyList();
+
     private PagerAdapter pageAdapter;
-
-    private List<String> subtitles;
-
-    private List<String> titles;
-
-    private List<String> uris;
 
     void goToMap( final int index ) {
         this.mapPager.setCurrentItem(index);
@@ -54,23 +51,16 @@ public final class MapGalleryScreen extends Activity {
         return this.inflater;
     }
 
-    void loadData() {
-        final SharedPreferences prefs = PrefMgr.get().prefs();
-        final int mapCount = prefs.getInt(PrefMgr.Preference.MAP_COUNT, 0);
+    void loadMaps() {
+        final ArrayList<TerminalMapParcelable> data = getIntent().getParcelableArrayListExtra(TerminalMapParcelable.TERMINAL_MAPS);
 
-        if (mapCount == 0) {
-            this.uris = Collections.emptyList();
-            this.titles = Collections.emptyList();
-            this.subtitles = Collections.emptyList();
+        if ((data == null) || data.isEmpty()) {
+            this.maps = Collections.emptyList();
         } else {
-            this.uris = new ArrayList<String>(mapCount);
-            this.titles = new ArrayList<String>(mapCount);
-            this.subtitles = new ArrayList<String>(mapCount);
+            this.maps = new ArrayList<TerminalMap>(data.size());
 
-            for (int i = 0; i < mapCount; ++i) {
-                this.uris.add(prefs.getString((PrefMgr.Preference.MAP_URI + i), "")); //$NON-NLS-1$
-                this.titles.add(prefs.getString((PrefMgr.Preference.MAP_TITLE + i), "")); //$NON-NLS-1$
-                this.subtitles.add(prefs.getString((PrefMgr.Preference.MAP_SUBTITLE + i), "")); //$NON-NLS-1$
+            for (final TerminalMapParcelable mapParcelable : data) {
+                this.maps.add(mapParcelable.getTerminalMap());
             }
         }
 
@@ -78,23 +68,19 @@ public final class MapGalleryScreen extends Activity {
     }
 
     int mapCount() {
-        if (this.uris == null) {
-            return 0;
-        }
-
-        return this.uris.size();
+        return this.maps.size();
     }
 
     String mapSubtitle( final int index ) {
-        return ((this.subtitles == null) ? "" : this.subtitles.get(index)); //$NON-NLS-1$
+        return this.maps.get(index).getSubtitle();
     }
 
     String mapTitle( final int index ) {
-        return ((this.titles == null) ? "" : this.titles.get(index)); //$NON-NLS-1$
+        return this.maps.get(index).getTitle();
     }
 
     String mapUri( final int index ) {
-        return ((this.uris == null) ? "" : this.uris.get(index)); //$NON-NLS-1$
+        return this.maps.get(index).getUri();
     }
 
     /**
@@ -110,7 +96,7 @@ public final class MapGalleryScreen extends Activity {
         this.mapPager = (ViewPager)findViewById(R.id.map_pager);
         this.mapPager.setAdapter(this.pageAdapter);
 
-        loadData();
+        loadMaps();
     }
 
     class ImagePageAdapter extends PagerAdapter {
