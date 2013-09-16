@@ -3,8 +3,8 @@
     android:id="@+id/details_list_map_row_title"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:drawableRight="@drawable/list_item_arrow"
     android:padding="10dp"
-    android:textSize="14sp"
-    android:drawableRight="@drawable/list_item_arrow" >
+    android:textSize="14sp" >
 
 </TextView>
