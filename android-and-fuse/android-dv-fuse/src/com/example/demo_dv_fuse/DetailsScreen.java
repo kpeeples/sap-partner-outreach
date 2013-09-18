@@ -117,6 +117,11 @@ public final class DetailsScreen extends Activity {
             } else {
                 ft.attach(this.mFragment);
             }
+
+            // set activity title
+            this.mActivity.setTitle(getString(R.string.app_name) + " - " //$NON-NLS-1$
+                            + (FlightsTab.ID.equals(this.mTag) ? getString(R.string.flights_tab_activity_title)
+                                            : getString(R.string.details_tab_activity_title)));
         }
 
         /**

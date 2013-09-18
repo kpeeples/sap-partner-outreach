@@ -13,15 +13,17 @@
 package com.example.demo_dv_fuse;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TableRow.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
@@ -33,86 +35,33 @@ public final class FlightsTab extends Fragment {
 
     static final String ID = FlightsTab.class.getSimpleName();
 
-    private TableLayout tableLayout;
+    private List<Flight> flights;
+    
+    private LayoutInflater inflater;
+
+    LayoutInflater accessInflator() {
+        return this.inflater;
+    }
 
     void handleFlightClicked( final int flightIndex ) {
         // TODO make sure Book It button is enabled
     }
 
-    private void loadFlights() {
+    private List<Flight> loadFlights() {
         final ArrayList<FlightParcelable> data = getActivity().getIntent()
                                                               .getParcelableArrayListExtra(FlightParcelable.ALTERNATIVE_FLIGHTS);
 
-        final Context context = getActivity();
-        int i = 0;
+        if ((data == null) || data.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        this.flights = new ArrayList<Flight>(data.size());
 
         for (final FlightParcelable flightParcelable : data) {
-            final Flight flight = flightParcelable.getFlight();
-            final TableRow row = new TableRow(context);
-            row.setClickable(true);
-            row.setFocusableInTouchMode(true);
-            row.setBackgroundResource(android.R.drawable.list_selector_background);
-            row.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                                                 android.R.attr.listPreferredItemHeight));
-
-            { // carrier
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getCarrier());
-                row.addView(textView);
-            }
-
-            { // flight number
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getFlightNumber());
-                row.addView(textView);
-            }
-
-            { // departure time
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getDepartureTime());
-                row.addView(textView);
-            }
-
-            { // departure airport
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getDepartureAirportCode());
-                row.addView(textView);
-            }
-
-            { // arrival time
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getArrivalTime());
-                row.addView(textView);
-            }
-
-            { // arrival airport
-                final TextView textView = new TextView(context);
-                textView.setPadding(10, 4, 4, 10);
-                textView.setText(flight.getArrivalAirportCode());
-                row.addView(textView);
-            }
-
-            final int index = i;
-            row.setOnClickListener(new View.OnClickListener() {
-
-                /**
-                 * @see android.view.View.OnClickListener#onClick(android.view.View)
-                 */
-                @Override
-                public void onClick( final View view ) {
-                    handleFlightClicked(index);
-                }
-            });
-
-            this.tableLayout.addView(row, new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                       ViewGroup.LayoutParams.WRAP_CONTENT));
-            ++i;
+            flights.add(flightParcelable.getFlight());
         }
+
+        return flights;
     }
 
     /**
@@ -129,13 +78,108 @@ public final class FlightsTab extends Fragment {
      *      android.os.Bundle)
      */
     @Override
-    public View onCreateView( final LayoutInflater inflater,
+    public View onCreateView( final LayoutInflater layoutInflater,
                               final ViewGroup container,
                               final Bundle savedInstanceState ) {
-        final View flightsTab = inflater.inflate(R.layout.flights_tab, container, false);
-        this.tableLayout = (TableLayout)flightsTab.findViewById(R.id.flights_table);
-        loadFlights();
+        this.inflater = layoutInflater;
+        final View flightsTab = this.inflater.inflate(R.layout.flights_tab, container, false);
+
+        final ListView listView = (ListView)flightsTab.findViewById(R.id.flight_details_list);
+        final FlightsAdapter adapter = new FlightsAdapter(getActivity(), R.layout.flight_details_row, loadFlights());
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            /**
+             * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
+             *      android.view.View, int, long)
+             */
+            @Override
+            public void onItemClick( final AdapterView<?> adapterView,
+                                     final View parent,
+                                     final int position,
+                                     final long id ) {
+                handleFlightClicked(position);
+            }
+        });
+
         return flightsTab;
+    }
+
+    static class FlightHolder {
+
+        TextView txtArrivalAirport;
+        TextView txtArrivalTime;
+        TextView txtCarrier;
+        TextView txtDepartureAirport;
+        TextView txtDepartureIata;
+        TextView txtDepartureTime;
+        TextView txtFlightNumber;
+        TextView txtGate;
+        TextView txtStatus;
+        TextView txtTerminal;
+
+    }
+
+    class FlightsAdapter extends ArrayAdapter<Flight> {
+
+        final Context activity;
+        final List<Flight> flights;
+
+        FlightsAdapter( final Context currentContext,
+                        final int resourceId,
+                        final List<Flight> alternateFlights ) {
+            super(currentContext, resourceId, alternateFlights);
+            this.activity = currentContext;
+            this.flights = alternateFlights;
+        }
+
+        /**
+         * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+         */
+        @Override
+        public View getView( final int position,
+                             final View convertView,
+                             final ViewGroup parent ) {
+            View row = convertView;
+            FlightHolder holder = null;
+
+            if (row == null) {
+                row = accessInflator().inflate(R.layout.flight_details_row, parent, false);
+
+                holder = new FlightHolder();
+                holder.txtDepartureIata = (TextView)row.findViewById(R.id.departure_iata);
+                holder.txtCarrier = (TextView)row.findViewById(R.id.departure_airlines);
+                holder.txtFlightNumber = (TextView)row.findViewById(R.id.departure_flight_number);
+                holder.txtDepartureTime = (TextView)row.findViewById(R.id.departure_time);
+                holder.txtDepartureAirport = (TextView)row.findViewById(R.id.departure_airport_code);
+                holder.txtArrivalTime = (TextView)row.findViewById(R.id.arrival_time);
+                holder.txtArrivalAirport = (TextView)row.findViewById(R.id.arrival_airport_code);
+                holder.txtGate = (TextView)row.findViewById(R.id.arrival_gate);
+                holder.txtTerminal = (TextView)row.findViewById(R.id.arrival_terminal);
+                holder.txtStatus = (TextView)row.findViewById(R.id.departure_status);
+
+                row.setTag(holder);
+            } else {
+                holder = (FlightHolder)row.getTag();
+            }
+
+            final Flight flight = this.flights.get(position);
+
+            holder.txtDepartureIata.setText(flight.getIata());
+            holder.txtCarrier.setText(flight.getCarrier());
+            holder.txtFlightNumber.setText(flight.getFlightNumber());
+            holder.txtDepartureTime.setText(flight.getDepartureTime());
+            holder.txtDepartureAirport.setText(flight.getDepartureAirportCode());
+            holder.txtArrivalTime.setText(flight.getArrivalTime());
+            holder.txtArrivalAirport.setText(flight.getArrivalAirportCode());
+            holder.txtGate.setText(flight.getArrivalGate());
+            holder.txtTerminal.setText(flight.getArrivalTerminal());
+            holder.txtStatus.setText(flight.getStatus());
+
+            return row;
+        }
+
     }
 
 }
