@@ -13,37 +13,30 @@
 package com.example.demo_dv_fuse;
 
 import android.os.Bundle;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
+import android.support.v4.app.FragmentActivity;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A screen that displays a Google map.
  */
-public class MapScreen extends MapActivity {
+public class MapScreen extends FragmentActivity {
 
-    private MapView mapView;
+    private GoogleMap map;
+
+    public MapScreen() {
+        super();
+    }
 
     private void displayLocation() {
-        final MapController mc = this.mapView.getController();
         final String coordinates[] = {"1.352566007", "103.78921587"};
         final double lat = Double.parseDouble(coordinates[0]);
         final double lng = Double.parseDouble(coordinates[1]);
 
-        final GeoPoint p = new GeoPoint((int)(lat * 1E6), (int)(lng * 1E6));
-
-        mc.animateTo(p);
-        mc.setZoom(17);
-        this.mapView.invalidate();
-    }
-
-    /**
-     * @see com.google.android.maps.MapActivity#isRouteDisplayed()
-     */
-    @Override
-    protected boolean isRouteDisplayed() {
-        return false;
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lng)).title("Woo Hoo");
+        this.map.addMarker(marker);
     }
 
     /**
@@ -53,9 +46,7 @@ public class MapScreen extends MapActivity {
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_screen);
-        this.mapView = (MapView)findViewById(R.id.mapview);
-        this.mapView.setBuiltInZoomControls(true);
-        this.mapView.setSatellite(true);
+        this.map = ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.mapView)).getMap();
         displayLocation();
     }
 
