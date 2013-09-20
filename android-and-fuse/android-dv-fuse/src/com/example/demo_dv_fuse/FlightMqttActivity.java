@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -28,6 +29,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+
 import com.example.demo_dv_fuse.model.Airport;
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
@@ -295,7 +298,7 @@ public final class FlightMqttActivity extends Activity implements DialogInterfac
                         throw new InterruptedException(); // TODO add message
                     }
 
-                    this.flights.add(new Flight("American Airlines", "AA", "100", "1:00 PM", "ORD", "3:00 PM", "LAS", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                    this.flights.add(new Flight("American Airlines", "AA", "100", "1:00 PM", "JFK", "3:00 PM", "LAS", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
                                                 "1", "A10", "ON TIME")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                     this.flights.add(new Flight("Delta", "DA", "200", "2:00 PM", "ORD", "4:00 PM", "LAS", "1", "A10", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
                                                 "DELAYED")); //$NON-NLS-1$
@@ -373,6 +376,11 @@ public final class FlightMqttActivity extends Activity implements DialogInterfac
             };
         }
 
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        
         this.arrivalAirport = _noAirport;
         this.departureAirport = _noAirport;
 

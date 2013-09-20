@@ -471,6 +471,7 @@ public final class AirportProvider {
         AIRPORTS.add(new Airport("Worland", "WY", "USA", "WRL")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         AIRPORTS.add(new Airport("West Yellowstone", "MT", "USA", "WYS")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
         AIRPORTS.add(new Airport("Fayetteville", "AR", "USA", "XNA")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        
         Collections.sort(AIRPORTS, Airport.LOCATION_SORTER);
     }
 

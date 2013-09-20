@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:contentDescription="@string/terminal_map_image_description"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <Button
             android:id="@+id/btnNext"
