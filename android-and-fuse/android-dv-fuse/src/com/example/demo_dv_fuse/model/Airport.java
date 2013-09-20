@@ -49,17 +49,13 @@ public class Airport {
         @Override
         public int compare( final Airport thisAirport,
                             final Airport thatAirport ) {
-            int result = thisAirport.getCountry().compareTo(thatAirport.getCountry());
+            int result = thisAirport.getIata().compareTo(thatAirport.getIata());
 
             if (result == 0) {
                 result = thisAirport.getState().compareTo(thatAirport.getState());
 
                 if (result == 0) {
                     result = thisAirport.getCity().compareTo(thatAirport.getCity());
-
-                    if (result == 0) {
-                        result = thisAirport.getIata().compareTo(thatAirport.getIata());
-                    }
                 }
             }
 
