@@ -13,15 +13,12 @@
 package com.example.demo_dv_fuse;
 
 import java.util.ArrayList;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.StrictMode;
-
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
 
