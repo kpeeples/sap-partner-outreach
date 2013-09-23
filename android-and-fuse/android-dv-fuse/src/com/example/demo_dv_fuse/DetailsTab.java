@@ -64,10 +64,13 @@ public final class DetailsTab extends Fragment {
     @SuppressLint( "DefaultLocale" )
     void handleViewGoogleMap() {
         // TODO use airport lat/long here
-        final double lat = 50.08818;
-        final double lon = 14.42021;
-        final int zoom = 11;
-        final String uri = String.format("geo:%f,%f?z=%d", lat, lon, zoom); //$NON-NLS-1$
+        final double lat = 28.4294;
+        final double lon = 81.3089;
+        final int zoom = 14;
+        final String label = "Orlando International Airport (MCO)"; //$NON-NLS-1$
+        final String query = Uri.encode(label);
+
+        final String uri = String.format("geo:%f,%f?q=%s&z=%d&t=h", lat, lon, query, zoom); //$NON-NLS-1$
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(intent);
     }
