@@ -12,17 +12,28 @@
  */
 package com.example.demo_dv_fuse;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A screen that displays a Google map.
  */
-public class MapScreen extends FragmentActivity {
+public class MapScreen extends Activity implements LocationListener {
 
     private GoogleMap map;
 
@@ -30,24 +41,101 @@ public class MapScreen extends FragmentActivity {
         super();
     }
 
-    private void displayLocation() {
-        final String coordinates[] = {"1.352566007", "103.78921587"};
-        final double lat = Double.parseDouble(coordinates[0]);
-        final double lng = Double.parseDouble(coordinates[1]);
-
-        MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lng)).title("Woo Hoo");
-        this.map.addMarker(marker);
-    }
-
     /**
-     * @see com.google.android.maps.MapActivity#onCreate(android.os.Bundle)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_screen);
-        this.map = ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.mapView)).getMap();
-        displayLocation();
+        this.map = ((MapFragment)getFragmentManager().findFragmentById(R.id.mapView)).getMap();
+        this.map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        final int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+
+        if (status == ConnectionResult.SUCCESS) { // Google Play Services is available
+            // Enabling MyLocation Layer of Google Map
+            this.map.setMyLocationEnabled(true);
+
+            // Getting LocationManager object from System Service LOCATION_SERVICE
+            final LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+
+            // Creating a criteria object to retrieve provider
+            final Criteria criteria = new Criteria();
+
+            // Getting the name of the best provider
+            final String provider = locationManager.getBestProvider(criteria, true);
+
+            // Getting Current Location
+            final Location location = locationManager.getLastKnownLocation(provider);
+
+            if (location != null) {
+                onLocationChanged(location);
+//            } else {
+//                final String coordinates[] = {"1.352566007", "103.78921587"};
+//                final double lat = Double.parseDouble(coordinates[0]);
+//                final double lng = Double.parseDouble(coordinates[1]);
+//
+//                // Creating a LatLng object for the current location
+//                LatLng latLng = new LatLng(lat, lng);
+//
+//                // Showing the current location in Google Map
+//                this.map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//                this.map.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
+            boolean enabledGPS = locationManager
+                            .isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    boolean enabledWiFi = locationManager
+                            .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                    // Check if enabled and if not send user to the GSP settings
+                    // Better solution would be to display a dialog and suggesting to 
+                    // go to the settings
+                    if (!enabledGPS || !enabledWiFi) {
+                        Toast.makeText(this, "GPS signal not found", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+            locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        } else { // Google Play Services are not available
+            final int requestCode = 10;
+            final Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+            dialog.show();
+        }
+    }
+
+    /**
+     * @see android.location.LocationListener#onLocationChanged(android.location.Location)
+     */
+    @Override
+    public void onLocationChanged( final Location newLocation ) {
+        // nothing to do
+    }
+
+    /**
+     * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+     */
+    @Override
+    public void onProviderDisabled( final String newProvider ) {
+        // nothing to do
+    }
+
+    /**
+     * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+     */
+    @Override
+    public void onProviderEnabled( final String newProvider ) {
+        // nothing to do
+    }
+
+    /**
+     * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+     */
+    @Override
+    public void onStatusChanged( final String newProvider,
+                                 final int newStatus,
+                                 final Bundle newExtras ) {
+        // nothing to do
     }
 
 }
