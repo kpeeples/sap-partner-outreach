@@ -21,17 +21,17 @@ public final class TerminalMap {
 
     private final String title;
 
-    private final String uri;
+    private final String imageName;
 
     /**
      * @param mapUri the URI of the map (cannot be <code>null</code> or empty)
      * @param mapTitle the localized map title (cannot be <code>null</code> or empty)
      * @param mapSubtitle the localized map subtitle (can be <code>null</code> or empty)
      */
-    public TerminalMap( final String mapUri,
+    public TerminalMap( final String imageName,
                         final String mapTitle,
                         final String mapSubtitle ) {
-        this.uri = mapUri;
+        this.imageName = imageName;
         this.title = mapTitle;
         this.subtitle = ((mapSubtitle == null) ? "" : mapSubtitle); //$NON-NLS-1$
     }
@@ -51,10 +51,10 @@ public final class TerminalMap {
     }
 
     /**
-     * @return the map resource URI (never <code>null</code> or empty)
+     * @return the map resource id (never <code>null</code> or empty)
      */
-    public String getUri() {
-        return this.uri;
+    public String getImageName() {
+        return this.imageName;
     }
 
 }

@@ -15,10 +15,10 @@ import com.example.demo_dv_fuse.model.TerminalMap;
 public class AirportMaps {
 	
 	// url to make request
-	private static String url = "http://10.0.2.2:8080/odata/flight/MySQLAirport.airport_maps?$format=XML";
+	private static String url = "http://10.0.2.2:8080/odata/flight/MySQLAirports.airport_maps?$format=JSON";
 	 
 	// JSON Node names
-	private static final String TAG_RESULTS = "contacts";
+	private static final String TAG_RESULTS = "results";
 	private static final String TAG_IATA = "iata";
 	private static final String TAG_TITLE = "image_title";
 	private static final String TAG_SUBTITLE = "image_subtitle";
@@ -42,8 +42,9 @@ public class AirportMaps {
 		JSONObject json = jParser.getJSONFromUrl(url, true);
 		 
 		try {
+			
 		    // Getting Array of Results
-		    results = json.getJSONArray(TAG_RESULTS);
+		    results = json.getJSONObject("d").getJSONArray(TAG_RESULTS);
 		     
 		    // looping through All Results
 		    for(int i = 0; i < results.length(); i++){
@@ -66,25 +67,23 @@ public class AirportMaps {
 		}
 	}
 	
-	public class JSONExecutor extends AsyncTask<String, Object, Object> {
+	public class JSONExecutor extends AsyncTask<String, AirportMaps, Object> {
 		String url;
-
+		
 	    @Override
 	    protected void onPreExecute() {
 	    }
 	    
-	    
-
 	    @Override
 		protected void onPostExecute(Object result) {
-	    	new AirportMaps().getResults(url);
+	    	AirportMaps maps = new AirportMaps();
+	    	maps.getResults(url);
 			super.onPostExecute(result);
 		}
-
 	    
 		@Override
 		protected String doInBackground(String... params) {
-	        url = (String)params[0];
+			url = (String)params[0];
 			return null;
 		}
 	}

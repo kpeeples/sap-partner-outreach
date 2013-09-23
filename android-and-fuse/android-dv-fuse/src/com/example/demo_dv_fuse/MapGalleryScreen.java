@@ -15,7 +15,9 @@ package com.example.demo_dv_fuse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import android.app.Activity;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -27,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.demo_dv_fuse.model.TerminalMap;
 import com.example.demo_dv_fuse.model.TerminalMapParcelable;
 
@@ -79,8 +82,8 @@ public final class MapGalleryScreen extends Activity {
         return this.maps.get(index).getTitle();
     }
 
-    String mapUri( final int index ) {
-        return this.maps.get(index).getUri();
+    String imageName( final int index ) {
+        return this.maps.get(index).getImageName();
     }
 
     /**
@@ -125,6 +128,7 @@ public final class MapGalleryScreen extends Activity {
         @Override
         public Object instantiateItem( final ViewGroup container,
                                        final int position ) {
+        	Resources res = getResources();
             final View view = inflater().inflate(R.layout.map_gallery_page, null);
 
             { // title
@@ -139,7 +143,10 @@ public final class MapGalleryScreen extends Activity {
 
             { // load map image
                 final ImageView map = (ImageView)view.findViewById(R.id.mapImage);
-                map.setImageURI(Uri.parse(mapUri(position)));
+                String imageName = imageName(position);
+                int resourceId = res.getIdentifier( 
+                		imageName, "drawable", getPackageName() );
+                map.setImageResource(resourceId);
             }
 
             { // hook up left button

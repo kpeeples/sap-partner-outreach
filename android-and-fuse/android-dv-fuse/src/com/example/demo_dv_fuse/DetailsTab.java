@@ -85,15 +85,15 @@ public final class DetailsTab extends Fragment {
 
 	void loadGalleryData(final Intent intent) {
 		AirportMaps airportMaps = new AirportMaps();
-		airportMaps.new JSONExecutor().execute(this.flight.getDepartureAirportCode());
+		//airportMaps.new JSONExecutor().execute(this.flight.getDepartureAirportCode());
+		airportMaps.getResults(this.flight.getDepartureAirportCode());
 		Map<String, TerminalMap> maps = airportMaps.getMap();
-		final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
+		//final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
 		final ArrayList<TerminalMapParcelable> data = new ArrayList<TerminalMapParcelable>(
 				maps.size());
 
 		for (TerminalMap map : maps.values()) {
-			data.add(new TerminalMapParcelable(new TerminalMap(uriPrefix
-					+ map.getUri(), map.getTitle(), map.getSubtitle())));
+			data.add(new TerminalMapParcelable(new TerminalMap(map.getImageName(), map.getTitle(), map.getSubtitle())));
 		}
 
 		intent.putParcelableArrayListExtra(TerminalMapParcelable.TERMINAL_MAPS,

@@ -85,7 +85,7 @@ public final class TerminalMapParcelable implements Parcelable {
     @Override
     public void writeToParcel( final Parcel dest,
                                final int flags ) {
-        dest.writeString(this.terminalMap.getUri());
+        dest.writeString(this.terminalMap.getImageName());
         dest.writeString(this.terminalMap.getTitle());
 
         String subtitle = this.terminalMap.getSubtitle();
