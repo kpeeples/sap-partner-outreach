@@ -19,6 +19,8 @@ import java.util.Comparator;
  */
 public class Airport {
 
+    private static final double[] DEFAULT_LAT_LONG = new double[] {29.2, 81.0333}; // TODO remove this
+
     /**
      * Sorts airports by their IATA code.
      */
@@ -49,13 +51,17 @@ public class Airport {
         @Override
         public int compare( final Airport thisAirport,
                             final Airport thatAirport ) {
-            int result = thisAirport.getIata().compareTo(thatAirport.getIata());
+            int result = thisAirport.getCountry().compareTo(thatAirport.getCountry());
 
             if (result == 0) {
                 result = thisAirport.getState().compareTo(thatAirport.getState());
 
                 if (result == 0) {
                     result = thisAirport.getCity().compareTo(thatAirport.getCity());
+
+                    if (result == 0) {
+                        result = thisAirport.getIata().compareTo(thatAirport.getIata());
+                    }
                 }
             }
 
@@ -64,6 +70,8 @@ public class Airport {
     };
 
     private final String city;
+
+    private double[] coordinates = DEFAULT_LAT_LONG;
 
     private final String country;
 
@@ -81,10 +89,29 @@ public class Airport {
                     final String airportState,
                     final String airportCountry,
                     final String airportIata ) {
+        // TODO remove this constructor when all the airports have a lat/long
+        this(airportCity, airportState, airportCountry, airportIata, DEFAULT_LAT_LONG[0], DEFAULT_LAT_LONG[1]);
+    }
+
+    /**
+     * @param airportCity the city (cannot be <code>null</code> or empty)
+     * @param airportState the state (cannot be <code>null</code> or empty)
+     * @param airportCountry the country (cannot be <code>null</code> or empty)
+     * @param airportIata the IATA code (cannot be <code>null</code> or empty)
+     * @param airportLat the airport's latitide coordinate
+     * @param airportLong the airport's longitude coordinate
+     */
+    public Airport( final String airportCity,
+                    final String airportState,
+                    final String airportCountry,
+                    final String airportIata,
+                    final double airportLat,
+                    final double airportLong) {
         this.city = airportCity;
         this.state = airportState;
         this.country = airportCountry;
         this.iata = airportIata;
+        this.coordinates = new double[] {airportLat, airportLong};
     }
 
     /**
@@ -92,6 +119,13 @@ public class Airport {
      */
     public String getCity() {
         return this.city;
+    }
+
+    /**
+     * @return the airport's lat/long coordinates
+     */
+    public double[] getCoordinates() {
+        return this.coordinates;
     }
 
     /**

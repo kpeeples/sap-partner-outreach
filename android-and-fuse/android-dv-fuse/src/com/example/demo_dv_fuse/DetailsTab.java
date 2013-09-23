@@ -14,9 +14,10 @@ package com.example.demo_dv_fuse;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.demo_dv_fuse.data.json.objects.AirportMaps;
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
@@ -37,144 +37,140 @@ import com.example.demo_dv_fuse.model.TerminalMapParcelable;
  */
 public final class DetailsTab extends Fragment {
 
-	private static final int AIRPORT_MAPS_INDEX = 1; // list header is index
-														// zero
-	private static final int GOOGLE_MAPS_INDEX = 2;
-	static final String ID = DetailsTab.class.getSimpleName();
+    private static final int AIRPORT_MAPS_INDEX = 1; // list header is index
+                                                     // zero
+    private static final int GOOGLE_MAPS_INDEX = 2;
+    static final String ID = DetailsTab.class.getSimpleName();
 
-	private TextView arrivalAirportCode;
-	private TextView arrivalGate;
-	private TextView arrivalTerminal;
-	private TextView arrivalTime;
-	private TextView departureAirlines;
-	private TextView departureAirportCode;
-	private TextView departureFlightNumber;
-	private TextView departureIata;
-	private TextView departureStatus;
-	private TextView departureTime;
+    private TextView arrivalAirportCode;
+    private TextView arrivalGate;
+    private TextView arrivalTerminal;
+    private TextView arrivalTime;
+    private TextView departureAirlines;
+    private TextView departureAirportCode;
+    private TextView departureFlightNumber;
+    private TextView departureIata;
+    private TextView departureStatus;
+    private TextView departureTime;
 
-	private Flight flight;
+    private Flight flight;
 
-	void handleViewAirportMapsSelected() {
-		final Intent intent = new Intent(getActivity(), MapGalleryScreen.class);
-		loadGalleryData(intent);
-		startActivity(intent);
-	}
+    void handleViewAirportMapsSelected() {
+        final Intent intent = new Intent(getActivity(), MapGalleryScreen.class);
+        loadGalleryData(intent);
+        startActivity(intent);
+    }
 
-	void handleViewGoogleMap() {
-		final Intent intent = new Intent(getActivity(), MapScreen.class);
-		startActivity(intent);
-	}
+    @SuppressLint( "DefaultLocale" )
+    void handleViewGoogleMap() {
+        // TODO use airport lat/long here
+        final double lat = 50.08818;
+        final double lon = 14.42021;
+        final int zoom = 11;
+        final String uri = String.format("geo:%f,%f?z=%d", lat, lon, zoom); //$NON-NLS-1$
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
+    }
 
-	void loadFlightInfo() {
-		// departure data
-		this.departureIata.setText(this.flight.getIata());
-		this.departureAirlines.setText(this.flight.getCarrier());
-		this.departureFlightNumber.setText(this.flight.getFlightNumber());
-		this.departureTime.setText(this.flight.getDepartureTime());
-		this.departureAirportCode
-				.setText(this.flight.getDepartureAirportCode());
-		this.departureStatus.setText(this.flight.getStatus());
+    void loadFlightInfo() {
+        // departure data
+        this.departureIata.setText(this.flight.getIata());
+        this.departureAirlines.setText(this.flight.getCarrier());
+        this.departureFlightNumber.setText(this.flight.getFlightNumber());
+        this.departureTime.setText(this.flight.getDepartureTime());
+        this.departureAirportCode.setText(this.flight.getDepartureAirportCode());
+        this.departureStatus.setText(this.flight.getStatus());
 
-		// arrival data
-		this.arrivalTime.setText(this.flight.getArrivalTime());
-		this.arrivalAirportCode.setText(this.flight.getArrivalAirportCode());
-		this.arrivalGate.setText(this.flight.getArrivalGate());
-		this.arrivalTerminal.setText(this.flight.getArrivalTerminal());
-	}
+        // arrival data
+        this.arrivalTime.setText(this.flight.getArrivalTime());
+        this.arrivalAirportCode.setText(this.flight.getArrivalAirportCode());
+        this.arrivalGate.setText(this.flight.getArrivalGate());
+        this.arrivalTerminal.setText(this.flight.getArrivalTerminal());
+    }
 
-	void loadGalleryData(final Intent intent) {
-		AirportMaps airportMaps = new AirportMaps();
-		//airportMaps.new JSONExecutor().execute(this.flight.getDepartureAirportCode());
-		airportMaps.getResults(this.flight.getDepartureAirportCode());
-		Map<String, TerminalMap> maps = airportMaps.getMap();
-		//final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
-		final ArrayList<TerminalMapParcelable> data = new ArrayList<TerminalMapParcelable>(
-				maps.size());
+    void loadGalleryData( final Intent intent ) {
+        final AirportMaps airportMaps = new AirportMaps();
+        // airportMaps.new JSONExecutor().execute(this.flight.getDepartureAirportCode());
+        airportMaps.getResults(this.flight.getDepartureAirportCode());
+        final Map<String, TerminalMap> maps = airportMaps.getMap();
+        //final String uriPrefix = "android.resource://" + getActivity().getPackageName() + '/'; //$NON-NLS-1$
+        final ArrayList<TerminalMapParcelable> data = new ArrayList<TerminalMapParcelable>(maps.size());
 
-		for (TerminalMap map : maps.values()) {
-			data.add(new TerminalMapParcelable(new TerminalMap(map.getImageName(), map.getTitle(), map.getSubtitle())));
-		}
+        for (final TerminalMap map : maps.values()) {
+            data.add(new TerminalMapParcelable(new TerminalMap(map.getImageName(), map.getTitle(), map.getSubtitle())));
+        }
 
-		intent.putParcelableArrayListExtra(TerminalMapParcelable.TERMINAL_MAPS,
-				data);
-	}
+        intent.putParcelableArrayListExtra(TerminalMapParcelable.TERMINAL_MAPS, data);
+    }
 
-	/**
-	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
-	 */
-	@Override
-	public void onActivityCreated(final Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		setRetainInstance(true);
+    /**
+     * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
+     */
+    @Override
+    public void onActivityCreated( final Bundle savedInstanceState ) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
 
-		final FlightParcelable parcelable = getActivity().getIntent()
-				.getExtras().getParcelable(FlightParcelable.SELECTED_FLIGHT);
-		this.flight = parcelable.getFlight();
+        final FlightParcelable parcelable = getActivity().getIntent().getExtras()
+                                                         .getParcelable(FlightParcelable.SELECTED_FLIGHT);
+        this.flight = parcelable.getFlight();
 
-		loadFlightInfo();
-	}
+        loadFlightInfo();
+    }
 
-	/**
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater,
-	 *      android.view.ViewGroup, android.os.Bundle)
-	 */
-	@Override
-	public View onCreateView(final LayoutInflater inflater,
-			final ViewGroup container, final Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.details_tab, container,
-				false);
+    /**
+     * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup,
+     *      android.os.Bundle)
+     */
+    @Override
+    public View onCreateView( final LayoutInflater inflater,
+                              final ViewGroup container,
+                              final Bundle savedInstanceState ) {
+        final View view = inflater.inflate(R.layout.details_tab, container, false);
 
-		final String[] choices = { getString(R.string.viewAirportMaps),
-				getString(R.string.viewGoogleMap) };
-		final ListView listView = (ListView) view
-				.findViewById(R.id.detailsList);
+        final String[] choices = {getString(R.string.viewAirportMaps), getString(R.string.viewGoogleMap)};
+        final ListView listView = (ListView)view.findViewById(R.id.detailsList);
 
-		final View headerView = inflater.inflate(R.layout.details_list_header,
-				null);
-		listView.addHeaderView(headerView, null, false);
+        final View headerView = inflater.inflate(R.layout.details_list_header, null);
+        listView.addHeaderView(headerView, null, false);
 
-		listView.setAdapter(new ArrayAdapter<String>(container.getContext(),
-				R.layout.details_row, R.id.details_list_map_row_title, choices));
-		listView.setClickable(true);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(new ArrayAdapter<String>(container.getContext(), R.layout.details_row,
+                                                     R.id.details_list_map_row_title, choices));
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			/**
-			 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
-			 *      android.view.View, int, long)
-			 */
-			@Override
-			public void onItemClick(final AdapterView<?> adapterView,
-					final View parent, final int position, final long id) {
-				if (position == AIRPORT_MAPS_INDEX) {
-					handleViewAirportMapsSelected();
-				} else if (position == GOOGLE_MAPS_INDEX) {
-					handleViewGoogleMap();
-				}
-			}
-		});
+            /**
+             * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
+             *      android.view.View, int, long)
+             */
+            @Override
+            public void onItemClick( final AdapterView<?> adapterView,
+                                     final View parent,
+                                     final int position,
+                                     final long id ) {
+                if (position == AIRPORT_MAPS_INDEX) {
+                    handleViewAirportMapsSelected();
+                } else if (position == GOOGLE_MAPS_INDEX) {
+                    handleViewGoogleMap();
+                }
+            }
+        });
 
-		// departure widgets
-		this.departureAirlines = (TextView) view
-				.findViewById(R.id.departure_airlines);
-		this.departureAirportCode = (TextView) view
-				.findViewById(R.id.departure_airport_code);
-		this.departureFlightNumber = (TextView) view
-				.findViewById(R.id.departure_flight_number);
-		this.departureIata = (TextView) view.findViewById(R.id.departure_iata);
-		this.departureStatus = (TextView) view
-				.findViewById(R.id.departure_status);
-		this.departureTime = (TextView) view.findViewById(R.id.departure_time);
+        // departure widgets
+        this.departureAirlines = (TextView)view.findViewById(R.id.departure_airlines);
+        this.departureAirportCode = (TextView)view.findViewById(R.id.departure_airport_code);
+        this.departureFlightNumber = (TextView)view.findViewById(R.id.departure_flight_number);
+        this.departureIata = (TextView)view.findViewById(R.id.departure_iata);
+        this.departureStatus = (TextView)view.findViewById(R.id.departure_status);
+        this.departureTime = (TextView)view.findViewById(R.id.departure_time);
 
-		// arrival widgets
-		this.arrivalAirportCode = (TextView) view
-				.findViewById(R.id.arrival_airport_code);
-		this.arrivalGate = (TextView) view.findViewById(R.id.arrival_gate);
-		this.arrivalTerminal = (TextView) view
-				.findViewById(R.id.arrival_terminal);
-		this.arrivalTime = (TextView) view.findViewById(R.id.arrival_time);
+        // arrival widgets
+        this.arrivalAirportCode = (TextView)view.findViewById(R.id.arrival_airport_code);
+        this.arrivalGate = (TextView)view.findViewById(R.id.arrival_gate);
+        this.arrivalTerminal = (TextView)view.findViewById(R.id.arrival_terminal);
+        this.arrivalTime = (TextView)view.findViewById(R.id.arrival_time);
 
-		return view;
-	}
+        return view;
+    }
 
 }
