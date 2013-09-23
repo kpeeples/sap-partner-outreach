@@ -38,24 +38,6 @@ public final class DetailsScreen extends Activity {
 		super.onCreate(newSavedInstanceState);
 		setContentView(R.layout.details_screen);
 
-		 // Activate StrictMode
-	    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-	        .detectAll()
-	        .detectDiskReads()
-	        .detectDiskWrites()
-	        .detectNetwork() 
-	         // alternatively .detectAll() for all detectable problems
-	        .penaltyLog()
-	        .penaltyDeath()
-	        .build());
-	    StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-	         .detectLeakedSqlLiteObjects()
-	         .detectLeakedClosableObjects()
-	        // alternatively .detectAll() for all detectable problems
-	        .penaltyLog()
-	        .penaltyDeath()
-	        .build());
-	    
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE,
