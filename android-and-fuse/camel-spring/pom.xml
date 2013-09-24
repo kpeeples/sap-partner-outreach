@@ -87,6 +87,42 @@
 		<artifactId>camel-rss</artifactId>
 	 	<version>2.12.0.redhat-610-SNAPSHOT</version>
 	</dependency>
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-velocity</artifactId>
+    	<version>2.12.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-mqtt</artifactId>
+    	<version>2.12.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-camel</artifactId>
+    	<version>5.9.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-broker</artifactId>
+    	<version>5.9.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-kahadb-store</artifactId>
+    	<version>5.9.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-all</artifactId>
+    	<version>5.9.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-mqtt</artifactId>
+    	<version>5.9.0.redhat-610-SNAPSHOT</version>
+	</dependency>
+	
     <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>

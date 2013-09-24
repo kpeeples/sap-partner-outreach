@@ -7,30 +7,26 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-
+ 
+   <bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
+    <property name="config" value="classpath:activemq.xml" />
+    <property name="start" value="true" />
+  </bean>
+   
   <camelContext xmlns="http://camel.apache.org/schema/spring">
     <route>
-        <description>here is a sample which processes the input files
-         (leaving them in place - see the 'noop' flag)
-         then performs content based routing on the message using XPath</description>
+        <description>here is a sample which processes the input files then performs content based routing on the message using XPath</description>
+
         <from uri="file:src/sap-netweaver?fileName=command.txt&amp;noop=true"/>
         <setHeader headerName="CamelNetWeaverCommand">
             <simple>in.body</simple>
         </setHeader>
         <to uri="sap-netweaver:https://sapes1.sapdevcenter.com/sap/opu/odata/IWFND/RMTSAMPLEFLIGHT/?username=P1940066098&amp;password=testpassword&amp;json=false"/>
-        <to uri="file:target/data?fileName=OUTPUT_SAP.xml"/>
-        <choice>
-            <when>
-                <xpath>//flightDetails[contains(carrid,'KENNY')]</xpath>
-                <log message="\n\nfound AA"/>
-                <to uri="log:out"/>
-                <stop/>
-            </when>
-            <otherwise>
-                <log message="none"/>
-                <stop/>
-            </otherwise>
-        </choice>
+        <to uri="log:response"/>
+        <to uri="mqtt:cheese?publishTopicName=test.mqtt.topic"/>
+        <to uri="velocity:flight-info.vm"/>
+        <to uri="log:display"/>
+        
     </route>
 </camelContext>
 
