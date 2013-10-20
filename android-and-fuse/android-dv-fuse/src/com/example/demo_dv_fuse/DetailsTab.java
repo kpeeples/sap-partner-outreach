@@ -14,6 +14,7 @@ package com.example.demo_dv_fuse;
 
 import java.util.ArrayList;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
@@ -26,7 +27,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.example.demo_dv_fuse.data.json.objects.AirportMaps;
+import com.example.demo_dv_fuse.data.json.objects.FlightDetail;
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
 import com.example.demo_dv_fuse.model.TerminalMap;
@@ -76,6 +79,11 @@ public final class DetailsTab extends Fragment {
     }
 
     void loadFlightInfo() {
+    	
+    	FlightDetail flightDetail = new FlightDetail();
+    	
+    	flightDetail.getResults(this.flight.getIata(), this.flight.getDepartureTimeXsdDuration(), this.flight.getArrivalTimeXsdDuration(), this.flight.getFlightDate(), this.flight.getDepartureAirportCode(), this.flight.getArrivalAirportCode());
+    	
         // departure data
         this.departureIata.setText(this.flight.getIata());
         this.departureAirlines.setText(this.flight.getCarrier());

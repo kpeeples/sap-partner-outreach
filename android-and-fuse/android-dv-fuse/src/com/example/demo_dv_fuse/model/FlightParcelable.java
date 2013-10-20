@@ -66,14 +66,17 @@ public final class FlightParcelable implements Parcelable {
         final String arrivalGate = in.readString();
         final String arrivalTerminal = in.readString();
         final String arrivalTime = in.readString();
+        final String arrivalTimeXsdDuration = in.readString();
         final String carrier = in.readString();
         final String departureAirportCode = in.readString();
         final String departureTime = in.readString();
+        final String departureTimeXsdDuration = in.readString();
         final String flightNumber = in.readString();
+        final String flightDate = in.readString();
         final String iata = in.readString();
         final String flightStatus = in.readString();
-        this.flight = new Flight(carrier, iata, flightNumber, departureTime, departureAirportCode, arrivalTime,
-                                 arrivalAirportCode, arrivalTerminal, arrivalGate, flightStatus);
+        this.flight = new Flight(carrier, iata, flightNumber, departureTime, departureTimeXsdDuration, departureAirportCode, arrivalTime, arrivalTimeXsdDuration,
+                                 arrivalAirportCode, arrivalTerminal, flightDate, arrivalGate, flightStatus);
     }
 
     /**
@@ -101,10 +104,13 @@ public final class FlightParcelable implements Parcelable {
         dest.writeString(this.flight.getArrivalGate());
         dest.writeString(this.flight.getArrivalTerminal());
         dest.writeString(this.flight.getArrivalTime());
+        dest.writeString(this.flight.getArrivalTimeXsdDuration());
         dest.writeString(this.flight.getCarrier());
         dest.writeString(this.flight.getDepartureAirportCode());
         dest.writeString(this.flight.getDepartureTime());
+        dest.writeString(this.flight.getDepartureTimeXsdDuration());
         dest.writeString(this.flight.getFlightNumber());
+        dest.writeString(this.flight.getFlightDate());
         dest.writeString(this.flight.getIata());
         dest.writeString(this.flight.getStatus());
     }

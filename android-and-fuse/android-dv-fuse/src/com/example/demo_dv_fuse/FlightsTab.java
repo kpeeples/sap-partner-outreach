@@ -57,9 +57,10 @@ public final class FlightsTab extends Fragment {
 
         this.flights = new ArrayList<Flight>(data.size());
 
-        for (final FlightParcelable flightParcelable : data) {
-            flights.add(flightParcelable.getFlight());
-        }
+     //   for (final FlightParcelable flightParcelable : data) {
+            flights.add(new Flight("United", "UA", "400", "12:00 PM", "PT12H00M00S", "JFK", "3:00 PM", "PT15H00M00S","SFO", "2", "2013-03-13T00:00:00", "14", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+                    "ON TIME"));
+     //    }
 
         return flights;
     }

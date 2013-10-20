@@ -15,7 +15,7 @@ package com.example.demo_dv_fuse.model;
 /**
  * An immutable flight business object.
  */
-public final class Flight {
+public final class Flight { 
 
     private final String arrivalAirportCode;
 
@@ -24,14 +24,20 @@ public final class Flight {
     private final String arrivalTerminal;
 
     private final String arrivalTime;
+    
+    private final String arrivalTimeXsdDuration;
 
     private final String carrier;
 
-    private final String departureAirportCode;
+	private final String departureAirportCode;
 
     private final String departureTime;
+    
+    private final String departureTimeXsdDuration;
 
     private final String flightNumber;
+    
+    private final String flightDate;
 
     private final String iata;
 
@@ -53,25 +59,38 @@ public final class Flight {
                    final String theIata,
                    final String theFlightNumber,
                    final String theDepartureTime,
+                   final String theDepartureTimeXsdDuration,
                    final String theDepartureAirportCode,
                    final String theArrivalTime,
+                   final String theArrivalTimeXsdDuration,
                    final String theArrivalAirportCode,
                    final String theArrivalTerminal,
+                   final String theFlightDate,
                    final String theArrivalGate,
                    final String theFlightStatus ) {
         this.carrier = theCarrier;
         this.iata = theIata;
         this.flightNumber = theFlightNumber;
         this.departureTime = theDepartureTime;
+        this.departureTimeXsdDuration = theDepartureTimeXsdDuration;
         this.departureAirportCode = theDepartureAirportCode;
         this.arrivalTime = theArrivalTime;
+        this.arrivalTimeXsdDuration = theArrivalTimeXsdDuration;
         this.arrivalAirportCode = theArrivalAirportCode;
         this.arrivalTerminal = theArrivalTerminal;
+        this.flightDate = theFlightDate;
         this.arrivalGate = theArrivalGate;
         this.status = theFlightStatus;
     }
 
     /**
+	 * @return the flightDate
+	 */
+	public String getFlightDate() {
+		return flightDate;
+	}
+
+	/**
      * @return the airport code of the arrival location (never <code>null</code> or empty)
      */
     public String getArrivalAirportCode() {
@@ -140,5 +159,19 @@ public final class Flight {
     public String getStatus() {
         return this.status;
     }
+    
+    /**
+   	 * @return the arrivalTimeXsdDuration
+   	 */
+   	public String getArrivalTimeXsdDuration() {
+   		return arrivalTimeXsdDuration;
+   	}
+
+   	/**
+   	 * @return the departureTimeXsdDuration
+   	 */
+   	public String getDepartureTimeXsdDuration() {
+   		return departureTimeXsdDuration;
+   	}
 
 }
