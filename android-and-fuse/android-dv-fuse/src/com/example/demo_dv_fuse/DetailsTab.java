@@ -20,6 +20,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.demo_dv_fuse.data.json.objects.AirportMaps;
 import com.example.demo_dv_fuse.data.json.objects.FlightDetail;
+import com.example.demo_dv_fuse.data.json.objects.NextFlightDetails;
 import com.example.demo_dv_fuse.model.Flight;
 import com.example.demo_dv_fuse.model.FlightParcelable;
 import com.example.demo_dv_fuse.model.TerminalMap;

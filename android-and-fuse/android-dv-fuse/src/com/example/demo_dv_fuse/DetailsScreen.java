@@ -105,16 +105,16 @@ public final class DetailsScreen extends Activity {
 				this.mFragment = Fragment.instantiate(this.mActivity,
 						this.mClass.getName(), this.mArgs);
 
-				if (FlightsTab.ID.equals(this.mTag)) {
-					// TODO Provide actual data here
-					final ArrayList<FlightParcelable> data = new ArrayList<FlightParcelable>(
-							5);
-					data.add(new FlightParcelable((new Flight("American Airlines", "AA", "100", "11:00 PM", "PT11H00M00S", "JFK", "2:00 PM", "PT14H00M00S", "SFO", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-                            "1", "2013-03-13T00:00:00", "A10", "DELAYED")))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				
-					this.mActivity.getIntent().putParcelableArrayListExtra(
-							FlightParcelable.ALTERNATIVE_FLIGHTS, data);
-				}
+//				if (FlightsTab.ID.equals(this.mTag)) {
+//					// TODO Provide actual data here
+//					final ArrayList<FlightParcelable> data = new ArrayList<FlightParcelable>(
+//							5);
+//					data.add(new FlightParcelable((new Flight("American Airlines", "AA", "100", "11:00 PM", "PT11H00M00S", "JFK", "2:00 PM", "PT14H00M00S", "SFO", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+//                            "1", "2013-03-13T00:00:00", "A10", "DELAYED")))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+//				
+//					this.mActivity.getIntent().putParcelableArrayListExtra(
+//							FlightParcelable.ALTERNATIVE_FLIGHTS, data);
+//				}
 
 				ft.add(android.R.id.content, this.mFragment, this.mTag);
 			} else {

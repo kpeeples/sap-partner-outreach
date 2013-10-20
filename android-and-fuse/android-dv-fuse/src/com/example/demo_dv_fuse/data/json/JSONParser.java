@@ -51,7 +51,7 @@ public class JSONParser {
 			}
 			httpGet.addHeader("Accept", "*/*;charset=utf-8");
 			HttpResponse httpResponse = httpClient.execute(httpGet);
-			StatusLine statusLine = httpResponse.getStatusLine();
+		//	StatusLine statusLine = httpResponse.getStatusLine();
 			// if(statusLine.getStatusCode() == HttpStatus.SC_OK){
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
@@ -89,4 +89,13 @@ public class JSONParser {
 		return jObj;
 
 	}
+
+	public String parseTime(String pTime) {
+		String subString = pTime.substring(2);
+		subString = subString.replace("H", ":");
+		subString = subString.replace("M", ":");
+		subString = subString.replace("S", "");
+		return subString;
+	}
+
 }

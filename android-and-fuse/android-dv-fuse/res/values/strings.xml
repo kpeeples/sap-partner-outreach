@@ -31,7 +31,7 @@
     <string name="Gate">Departure Gate</string>
     <string name="map_gallery_screen">Map Gallery</string>
     <string name="map_screen">Location</string>
-    <string name="Terminal">Terminal</string>
+    <string name="Terminal"></string>
     <string name="terminal_map_image_description">Terminal map image</string>
     <string name="las_airport">McCarran International Airport (LAS)</string>
     <string name="las_terminal_1_abc">Terminal 1: Concourse A, Concourse B, Concourse C</string>
