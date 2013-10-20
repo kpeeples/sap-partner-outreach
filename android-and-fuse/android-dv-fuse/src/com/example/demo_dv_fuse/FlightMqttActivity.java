@@ -298,16 +298,10 @@ public final class FlightMqttActivity extends Activity implements DialogInterfac
                         throw new InterruptedException(); // TODO add message
                     }
 
-                    this.flights.add(new Flight("American Airlines", "AA", "100", "1:00 PM", "JFK", "3:00 PM", "LAS", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
-                                                "1", "A10", "ON TIME")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                    this.flights.add(new Flight("Delta", "DA", "200", "2:00 PM", "ORD", "4:00 PM", "LAS", "1", "A10", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
-                                                "DELAYED")); //$NON-NLS-1$
-                    this.flights.add(new Flight("Virgin", "VA", "300", "3:00 PM", "ORD", "5:00 PM", "LAS", "1", "A10", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
-                                                "CANCELED")); //$NON-NLS-1$
-                    this.flights.add(new Flight("United", "UA", "400", "4:00 PM", "ORD", "6:00 PM", "LAS", "1", "A10", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
+                    this.flights.add(new Flight("American Airlines", "AA", "100", "11:00 PM", "PT11H00M00S", "JFK", "2:00 PM", "PT14H01M00S", "SFO", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$
+                                                "1", "2013-03-13T00:00:00", "A10", "DELAYED")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    this.flights.add(new Flight("United", "UA", "400", "12:00 PM", "PT12H00M00S", "JFK", "3:00 PM", "PT15H00M00S","SFO", "1", "2013-03-13T00:00:00", "A10", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
                                                 "ON TIME")); //$NON-NLS-1$
-                    this.flights.add(new Flight("Southwest", "SW", "500", "5:00 PM", "ORD", "6:00 PM", "LAS", "1", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
-                                                "A10", "ON TIME")); //$NON-NLS-1$ //$NON-NLS-2$
                     Thread.sleep(2000);
                 } catch (final Exception e) {
                     // TODO handle this
