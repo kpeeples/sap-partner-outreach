@@ -1,0 +1,1 @@
+FlightCollection(carrid='AA',connid='0017',fldate=datetime'2013-05-08T00:00:00')
